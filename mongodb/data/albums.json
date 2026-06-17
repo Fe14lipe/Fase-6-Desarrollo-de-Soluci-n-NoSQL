@@ -1,0 +1,598 @@
+[
+    {
+        "albumId": 1,
+        "titulo": "Un Verano Sin Ti",
+        "fechaLanzamiento": "2022-05-06",
+        "artistaId": 1,
+        "artistaNombre": "Bad Bunny",
+        "canciones": [
+            {
+                "cancionId": 1,
+                "titulo": "Me Porto Bonito",
+                "duracion": 178,
+                "explicita": true,
+                "eliminado": false,
+                "generos": [
+                    "Reggaeton",
+                    "Urbano"
+                ]
+            },
+            {
+                "cancionId": 2,
+                "titulo": "Tití Me Preguntó",
+                "duracion": 243,
+                "explicita": true,
+                "eliminado": false,
+                "generos": [
+                    "Reggaeton"
+                ]
+            },
+            {
+                "cancionId": 40,
+                "titulo": "Cancion Magnetica Remix",
+                "duracion": 225,
+                "explicita": true,
+                "eliminado": false,
+                "generos": [
+                    "Reggaeton",
+                    "Pop"
+                ]
+            }
+        ]
+    },
+    {
+        "albumId": 2,
+        "titulo": "Future Nostalgia",
+        "fechaLanzamiento": "2020-03-27",
+        "artistaId": 2,
+        "artistaNombre": "Dua Lipa",
+        "canciones": [
+            {
+                "cancionId": 3,
+                "titulo": "Levitating",
+                "duracion": 203,
+                "explicita": false,
+                "eliminado": false,
+                "generos": [
+                    "Pop",
+                    "Dance"
+                ]
+            },
+            {
+                "cancionId": 4,
+                "titulo": "Don't Start Now",
+                "duracion": 183,
+                "explicita": false,
+                "eliminado": false,
+                "generos": [
+                    "Pop"
+                ]
+            }
+        ]
+    },
+    {
+        "albumId": 3,
+        "titulo": "Microdosis",
+        "fechaLanzamiento": "2022-04-01",
+        "artistaId": 3,
+        "artistaNombre": "Mora",
+        "canciones": [
+            {
+                "cancionId": 5,
+                "titulo": "La Inocente",
+                "duracion": 200,
+                "explicita": true,
+                "eliminado": false,
+                "generos": [
+                    "Reggaeton"
+                ]
+            }
+        ]
+    },
+    {
+        "albumId": 4,
+        "titulo": "Sencillos EC",
+        "fechaLanzamiento": "2023-01-01",
+        "artistaId": 4,
+        "artistaNombre": "Banda Local EC",
+        "canciones": [
+            {
+                "cancionId": 6,
+                "titulo": "Volando",
+                "duracion": 215,
+                "explicita": false,
+                "eliminado": false,
+                "generos": [
+                    "Indie"
+                ]
+            }
+        ]
+    },
+    {
+        "albumId": 5,
+        "titulo": "Balas Perdidas",
+        "fechaLanzamiento": "2018-10-25",
+        "artistaId": 5,
+        "artistaNombre": "Morat",
+        "canciones": [
+            {
+                "cancionId": 7,
+                "titulo": "Besos en Guerra",
+                "duracion": 231,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 6,
+        "titulo": "¿Dónde Están los Ladrones?",
+        "fechaLanzamiento": "1998-09-29",
+        "artistaId": 6,
+        "artistaNombre": "Shakira",
+        "canciones": [
+            {
+                "cancionId": 8,
+                "titulo": "Ciega, Sordomuda",
+                "duracion": 268,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 7,
+        "titulo": "Mi Sangre",
+        "fechaLanzamiento": "2004-09-28",
+        "artistaId": 7,
+        "artistaNombre": "Juanes",
+        "canciones": [
+            {
+                "cancionId": 9,
+                "titulo": "La Camisa Negra",
+                "duracion": 216,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 8,
+        "titulo": "Colores",
+        "fechaLanzamiento": "2020-03-19",
+        "artistaId": 8,
+        "artistaNombre": "J Balvin",
+        "canciones": [
+            {
+                "cancionId": 10,
+                "titulo": "Rojo",
+                "duracion": 150,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 9,
+        "titulo": "Mañana Será Bonito",
+        "fechaLanzamiento": "2023-02-24",
+        "artistaId": 9,
+        "artistaNombre": "Karol G",
+        "canciones": [
+            {
+                "cancionId": 11,
+                "titulo": "TQG",
+                "duracion": 197,
+                "explicita": true,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 10,
+        "titulo": "Feliz Cumpleaños Ferxxo",
+        "fechaLanzamiento": "2022-09-14",
+        "artistaId": 10,
+        "artistaNombre": "Feid",
+        "canciones": [
+            {
+                "cancionId": 12,
+                "titulo": "Normal",
+                "duracion": 173,
+                "explicita": true,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 11,
+        "titulo": "Motomami",
+        "fechaLanzamiento": "2022-03-18",
+        "artistaId": 11,
+        "artistaNombre": "Rosalía",
+        "canciones": [
+            {
+                "cancionId": 13,
+                "titulo": "Despechá",
+                "duracion": 156,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 12,
+        "titulo": "Saturno",
+        "fechaLanzamiento": "2022-11-11",
+        "artistaId": 12,
+        "artistaNombre": "Rauw Alejandro",
+        "canciones": [
+            {
+                "cancionId": 14,
+                "titulo": "Punto 40",
+                "duracion": 190,
+                "explicita": true,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 13,
+        "titulo": "Tu Diosa",
+        "fechaLanzamiento": "2000-01-01",
+        "artistaId": 13,
+        "artistaNombre": "Tierra Canela",
+        "canciones": [
+            {
+                "cancionId": 15,
+                "titulo": "Mi Joven Profesor de Amor",
+                "duracion": 215,
+                "explicita": false,
+                "eliminado": false
+            },
+            {
+                "cancionId": 16,
+                "titulo": "Tu Sabes",
+                "duracion": 205,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 14,
+        "titulo": "1989",
+        "fechaLanzamiento": "2014-10-27",
+        "artistaId": 14,
+        "artistaNombre": "Taylor Swift",
+        "canciones": [
+            {
+                "cancionId": 17,
+                "titulo": "Blank Space",
+                "duracion": 231,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 15,
+        "titulo": "After Hours",
+        "fechaLanzamiento": "2020-03-20",
+        "artistaId": 15,
+        "artistaNombre": "The Weeknd",
+        "canciones": [
+            {
+                "cancionId": 18,
+                "titulo": "Blinding Lights",
+                "duracion": 200,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 16,
+        "titulo": "25",
+        "fechaLanzamiento": "2015-11-20",
+        "artistaId": 16,
+        "artistaNombre": "Adele",
+        "canciones": [
+            {
+                "cancionId": 19,
+                "titulo": "Hello",
+                "duracion": 295,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 17,
+        "titulo": "Divide",
+        "fechaLanzamiento": "2017-03-03",
+        "artistaId": 17,
+        "artistaNombre": "Ed Sheeran",
+        "canciones": [
+            {
+                "cancionId": 20,
+                "titulo": "Shape of You",
+                "duracion": 233,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 18,
+        "titulo": "Harry's House",
+        "fechaLanzamiento": "2022-05-20",
+        "artistaId": 18,
+        "artistaNombre": "Harry Styles",
+        "canciones": [
+            {
+                "cancionId": 21,
+                "titulo": "As It Was",
+                "duracion": 167,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 19,
+        "titulo": "When We All Fall Asleep",
+        "fechaLanzamiento": "2019-03-29",
+        "artistaId": 19,
+        "artistaNombre": "Billie Eilish",
+        "canciones": [
+            {
+                "cancionId": 22,
+                "titulo": "Bad Guy",
+                "duracion": 194,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 20,
+        "titulo": "The Eminem Show",
+        "fechaLanzamiento": "2002-05-26",
+        "artistaId": 20,
+        "artistaNombre": "Eminem",
+        "canciones": [
+            {
+                "cancionId": 23,
+                "titulo": "Without Me",
+                "duracion": 290,
+                "explicita": true,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 21,
+        "titulo": "Scorpion",
+        "fechaLanzamiento": "2018-06-29",
+        "artistaId": 21,
+        "artistaNombre": "Drake",
+        "canciones": [
+            {
+                "cancionId": 24,
+                "titulo": "God's Plan",
+                "duracion": 198,
+                "explicita": true,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 22,
+        "titulo": "Abbey Road",
+        "fechaLanzamiento": "1969-09-26",
+        "artistaId": 22,
+        "artistaNombre": "The Beatles",
+        "canciones": [
+            {
+                "cancionId": 25,
+                "titulo": "Here Comes The Sun",
+                "duracion": 185,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 23,
+        "titulo": "A Night at the Opera",
+        "fechaLanzamiento": "1975-11-21",
+        "artistaId": 23,
+        "artistaNombre": "Queen",
+        "canciones": [
+            {
+                "cancionId": 26,
+                "titulo": "Bohemian Rhapsody",
+                "duracion": 354,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 24,
+        "titulo": "Parachutes",
+        "fechaLanzamiento": "2000-07-10",
+        "artistaId": 24,
+        "artistaNombre": "Coldplay",
+        "canciones": [
+            {
+                "cancionId": 27,
+                "titulo": "Yellow",
+                "duracion": 269,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 25,
+        "titulo": "Master of Puppets",
+        "fechaLanzamiento": "1986-03-03",
+        "artistaId": 25,
+        "artistaNombre": "Metallica",
+        "canciones": [
+            {
+                "cancionId": 28,
+                "titulo": "Master of Puppets",
+                "duracion": 515,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 26,
+        "titulo": "Back in Black",
+        "fechaLanzamiento": "1980-07-25",
+        "artistaId": 26,
+        "artistaNombre": "AC/DC",
+        "canciones": [
+            {
+                "cancionId": 29,
+                "titulo": "Back in Black",
+                "duracion": 255,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 27,
+        "titulo": "Nevermind",
+        "fechaLanzamiento": "1991-09-24",
+        "artistaId": 27,
+        "artistaNombre": "Nirvana",
+        "canciones": [
+            {
+                "cancionId": 30,
+                "titulo": "Smells Like Teen Spirit",
+                "duracion": 301,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 28,
+        "titulo": "AM",
+        "fechaLanzamiento": "2013-09-09",
+        "artistaId": 28,
+        "artistaNombre": "Arctic Monkeys",
+        "canciones": [
+            {
+                "cancionId": 31,
+                "titulo": "Do I Wanna Know?",
+                "duracion": 272,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 29,
+        "titulo": "Currents",
+        "fechaLanzamiento": "2015-07-17",
+        "artistaId": 29,
+        "artistaNombre": "Tame Impala",
+        "canciones": [
+            {
+                "cancionId": 32,
+                "titulo": "The Less I Know The Better",
+                "duracion": 216,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 30,
+        "titulo": "God's Project",
+        "fechaLanzamiento": "2005-04-26",
+        "artistaId": 30,
+        "artistaNombre": "Aventura",
+        "canciones": [
+            {
+                "cancionId": 33,
+                "titulo": "Obsesión",
+                "duracion": 254,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 31,
+        "titulo": "Fórmula, Vol. 1",
+        "fechaLanzamiento": "2011-11-08",
+        "artistaId": 31,
+        "artistaNombre": "Romeo Santos",
+        "canciones": [
+            {
+                "cancionId": 34,
+                "titulo": "Propuesta Indecente",
+                "duracion": 235,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 32,
+        "titulo": "Para Siempre",
+        "fechaLanzamiento": "2007-09-25",
+        "artistaId": 32,
+        "artistaNombre": "Vicente Fernández",
+        "canciones": [
+            {
+                "cancionId": 35,
+                "titulo": "Estos Celos",
+                "duracion": 178,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 33,
+        "titulo": "Romances",
+        "fechaLanzamiento": "1997-08-12",
+        "artistaId": 33,
+        "artistaNombre": "Luis Miguel",
+        "canciones": [
+            {
+                "cancionId": 36,
+                "titulo": "Por Debajo de la Mesa",
+                "duracion": 185,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    },
+    {
+        "albumId": 34,
+        "titulo": "Canción Animal",
+        "fechaLanzamiento": "1990-08-07",
+        "artistaId": 34,
+        "artistaNombre": "Soda Stereo",
+        "canciones": [
+            {
+                "cancionId": 37,
+                "titulo": "De Música Ligera",
+                "duracion": 212,
+                "explicita": false,
+                "eliminado": false
+            }
+        ]
+    }
+]

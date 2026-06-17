@@ -1,0 +1,58 @@
+[
+    {
+        "discograficaId": 1,
+        "nombre": "Rimas Entertainment",
+        "pais": "Puerto Rico",
+        "fechaFundacion": "2014-01-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 2,
+        "nombre": "Warner Records",
+        "pais": "USA",
+        "fechaFundacion": "1958-03-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 3,
+        "nombre": "Independiente",
+        "pais": "Global",
+        "fechaFundacion": "2000-01-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 4,
+        "nombre": "Universal Music Group",
+        "pais": "USA",
+        "fechaFundacion": "1934-01-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 5,
+        "nombre": "Sony Music Latin",
+        "pais": "USA",
+        "fechaFundacion": "1979-01-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 6,
+        "nombre": "EMI Records",
+        "pais": "UK",
+        "fechaFundacion": "1931-03-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 7,
+        "nombre": "Republic Records",
+        "pais": "USA",
+        "fechaFundacion": "1995-01-01",
+        "eliminado": false
+    },
+    {
+        "discograficaId": 8,
+        "nombre": "Indie Records EC",
+        "pais": "Ecuador",
+        "fechaFundacion": "2010-01-01",
+        "eliminado": false
+    }
+]

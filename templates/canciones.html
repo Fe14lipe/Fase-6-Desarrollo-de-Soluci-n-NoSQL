@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.song-cover-play:hover .play-overlay {
+    opacity: 1 !important;
+}
+.song-cover-play:hover .default-icon {
+    transform: scale(0.85);
+    opacity: 0.2;
+}
+</style>
+
+<div class="glass-panel main-card fade-in">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h2><i class="ph ph-music-notes" style="color: #10b981;"></i> Catálogo de Canciones</h2>
+            <p class="subtitle">Explora todas las pistas musicales disponibles.</p>
+        </div>
+        {% if session.get('is_admin') %}
+        <div style="display: flex; gap: 0.75rem;">
+            <a href="{{ url_for('papelera') }}#tab-canciones" class="btn-secondary-custom" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 6px; padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #e2e8f0; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'; this.style.borderColor='rgba(255, 255, 255, 0.22)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.07)'; this.style.borderColor='rgba(255, 255, 255, 0.12)';">
+                <i class="ph ph-trash" style="font-size: 1.2rem; color: #ff6b6b;"></i> Ver Papelera
+            </a>
+            <a href="{{ url_for('create_cancion') }}" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 6px; padding: 0.6rem 1.2rem; background: #10b981; border: none; color: #fff; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='#059669';" onmouseout="this.style.background='#10b981';">
+                <i class="ph ph-plus-circle" style="font-size: 1.25rem;"></i> Agregar Canción
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive">
+        {% if canciones %}
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    {% if session.get('is_admin') %}
+                    <th>ID</th>
+                    {% endif %}
+                    <th>Título</th>
+                    <th>Álbum</th>
+                    <th>Duración (seg)</th>
+                    <th>Clasificación</th>
+                    {% if session.get('is_admin') %}
+                    <th>Acciones</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in canciones %}
+                <tr id="row-{{ c.cancionId }}" class="song-row">
+                    <td style="width: 60px; padding: 0.75rem 1rem;">
+                        <div class="song-cover-play" id="song-cover-{{ c.cancionId }}" data-title="{{ c.titulo }}" data-album="{{ c.album }}" onclick="playSong('{{ c.titulo }}', '{{ c.album }}'); document.querySelectorAll('.song-row').forEach(r => r.classList.remove('playing-row')); document.getElementById('row-{{ c.cancionId }}').classList.add('playing-row');" style="position: relative; width: 40px; height: 40px; border-radius: 6px; cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.08); flex-shrink: 0; margin: 0 auto;">
+                            <!-- Default Fallback Icon -->
+                            <i class="ph ph-music-notes default-icon" style="font-size: 1.2rem; color: #10b981; transition: all 0.2s; z-index: 0;"></i>
+                            <!-- Play Overlay -->
+                            <div class="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease-in-out; z-index: 2; border-radius: 6px;">
+                                <i class="ph-fill ph-play" style="font-size: 1.15rem; color: #10b981;"></i>
+                            </div>
+                        </div>
+                    </td>
+                    {% if session.get('is_admin') %}
+                    <td class="col-id">#{{ c.cancionId }}</td>
+                    {% endif %}
+                    <td class="col-name"><strong>{{ c.titulo }}</strong></td>
+                    <td>{{ c.album }}</td>
+                    <td style="font-family: monospace;">{{ c.duracion }}s</td>
+                    <td>
+                        {% if c.explicita %}
+                        <span style="background: rgba(239,68,68,0.2); color: #fca5a5; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">E</span>
+                        {% else %}
+                        <span style="color: var(--text-secondary);">-</span>
+                        {% endif %}
+                    </td>
+                    {% if session.get('is_admin') %}
+                    <td class="col-actions">
+                        <a href="{{ url_for('edit_cancion', cancion_id=c.cancionId) }}" class="btn-icon edit" title="Editar"><i class="ph ph-pencil-simple"></i></a>
+                        <form action="{{ url_for('delete_cancion', cancion_id=c.cancionId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Estás seguro de mover a {{ c.titulo }} a la papelera?');" style="display: inline-block;">
+                            <button type="submit" class="btn-icon delete" title="Mover a papelera"><i class="ph ph-trash"></i></button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Controles de Paginación -->
+        <div id="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
+            <!-- Se genera dinámicamente en JS -->
+        </div>
+
+        {% else %}
+        <div class="empty-state">
+            <i class="ph ph-ghost"></i>
+            <h3>No hay canciones registradas</h3>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const rows = Array.from(document.querySelectorAll('.song-row'));
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    const totalPages = Math.ceil(rows.length / itemsPerPage);
+    const paginationContainer = document.getElementById('pagination-controls');
+
+    // Carga de portadas dinámica para canciones visibles
+    async function fetchSongCover(songTitle, albumName, elementId) {
+        const cacheKey = `soundwave_cover_${songTitle}_${albumName}`.replace(/\s+/g, '_');
+        const cachedUrl = localStorage.getItem(cacheKey);
+        const container = document.getElementById(elementId);
+        if (!container) return;
+
+        const renderImg = (url) => {
+            let img = container.querySelector('img');
+            if (!img) {
+                img = document.createElement('img');
+                container.appendChild(img);
+            }
+            img.src = url;
+            img.style.cssText = "width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; border-radius: 6px;";
+            
+            const defaultIcon = container.querySelector('.default-icon');
+            if (defaultIcon) defaultIcon.style.opacity = '0';
+        };
+
+        if (cachedUrl) {
+            renderImg(cachedUrl);
+        } else {
+            try {
+                const query = encodeURIComponent(`${songTitle} ${albumName}`);
+                const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    const artworkUrl = data.results[0].artworkUrl60 || data.results[0].artworkUrl100;
+                    if (artworkUrl) {
+                        localStorage.setItem(cacheKey, artworkUrl);
+                        renderImg(artworkUrl);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+
+    function loadVisibleSongCovers() {
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                const coverPlay = row.querySelector('.song-cover-play');
+                if (coverPlay) {
+                    const id = coverPlay.id;
+                    const title = coverPlay.getAttribute('data-title');
+                    const album = coverPlay.getAttribute('data-album');
+                    fetchSongCover(title, album, id);
+                }
+            }
+        });
+    }
+
+    function showPage(page) {
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        rows.forEach((row, idx) => {
+            if (idx >= start && idx < end) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        loadVisibleSongCovers();
+        renderControls();
+    }
+
+    function renderControls() {
+        if (totalPages <= 1) {
+            paginationContainer.style.display = 'none';
+            return;
+        }
+        paginationContainer.style.display = 'flex';
+        paginationContainer.innerHTML = '';
+
+        // Botón Anterior
+        const prevBtn = document.createElement('button');
+        prevBtn.innerHTML = '<i class="ph ph-caret-left"></i>';
+        prevBtn.className = 'btn-icon';
+        prevBtn.style.cssText = 'width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer;';
+        if (currentPage === 1) {
+            prevBtn.style.opacity = '0.4';
+            prevBtn.style.cursor = 'not-allowed';
+            prevBtn.disabled = true;
+        } else {
+            prevBtn.addEventListener('click', () => showPage(currentPage - 1));
+        }
+        paginationContainer.appendChild(prevBtn);
+
+        // Números de Página
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.style.cssText = 'width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); font-family: monospace; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;';
+            
+            if (i === currentPage) {
+                pageBtn.style.background = '#10b981';
+                pageBtn.style.color = '#fff';
+                pageBtn.style.borderColor = '#10b981';
+                pageBtn.style.boxShadow = '0 0 10px rgba(16,185,129,0.3)';
+            } else {
+                pageBtn.style.background = 'rgba(255,255,255,0.03)';
+                pageBtn.style.color = 'var(--text-secondary)';
+                pageBtn.addEventListener('click', () => showPage(i));
+                pageBtn.addEventListener('mouseover', () => {
+                    pageBtn.style.background = 'rgba(255,255,255,0.08)';
+                    pageBtn.style.color = '#fff';
+                });
+                pageBtn.addEventListener('mouseout', () => {
+                    pageBtn.style.background = 'rgba(255,255,255,0.03)';
+                    pageBtn.style.color = 'var(--text-secondary)';
+                });
+            }
+            paginationContainer.appendChild(pageBtn);
+        }
+
+        // Botón Siguiente
+        const nextBtn = document.createElement('button');
+        nextBtn.innerHTML = '<i class="ph ph-caret-right"></i>';
+        nextBtn.className = 'btn-icon';
+        nextBtn.style.cssText = 'width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; cursor: pointer;';
+        if (currentPage === totalPages) {
+            nextBtn.style.opacity = '0.4';
+            nextBtn.style.cursor = 'not-allowed';
+            nextBtn.disabled = true;
+        } else {
+            nextBtn.addEventListener('click', () => showPage(currentPage + 1));
+        }
+        paginationContainer.appendChild(nextBtn);
+    }
+
+    // Inicializar mostrando la primera página
+    if (rows.length > 0) {
+        showPage(1);
+    }
+});
+</script>
+{% endblock %}

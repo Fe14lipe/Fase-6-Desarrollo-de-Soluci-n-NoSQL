@@ -1,0 +1,110 @@
+[
+    {
+        "usuarioId": 1,
+        "nombre": "Benjamin",
+        "apellido": "Perez",
+        "email": "benjamin@udla.edu.ec",
+        "contraseña": "hash_pass_1",
+        "pais": "Ecuador",
+        "fechaRegistro": "2026-05-23T19:46:05.570",
+        "estado": "Activa",
+        "eliminado": false,
+        "suscripciones": [
+            {
+                "suscripcionId": 1,
+                "fechaInicio": "2024-01-01T00:00:00",
+                "estado": "Activa",
+                "plan": {
+                    "planId": 2,
+                    "nombre": "Premium",
+                    "precioMensual": 5.99,
+                    "descripcion": "Música sin anuncios, descargas offline, audio HQ"
+                }
+            }
+        ]
+    },
+    {
+        "usuarioId": 2,
+        "nombre": "Maria",
+        "apellido": "Gomez",
+        "email": "maria.gomez@gmail.com",
+        "contraseña": "hash_pass_2",
+        "pais": "Colombia",
+        "fechaRegistro": "2026-05-23T19:46:05.570",
+        "estado": "Activa",
+        "eliminado": false,
+        "suscripciones": [
+            {
+                "suscripcionId": 2,
+                "fechaInicio": "2024-01-15T00:00:00",
+                "estado": "Activa",
+                "plan": {
+                    "planId": 2,
+                    "nombre": "Premium",
+                    "precioMensual": 5.99,
+                    "descripcion": "Música sin anuncios, descargas offline, audio HQ"
+                }
+            }
+        ]
+    },
+    {
+        "usuarioId": 3,
+        "nombre": "Carlos",
+        "apellido": "Santana",
+        "email": "carlos.sant@yahoo.com",
+        "contraseña": "hash_pass_3",
+        "pais": "Mexico",
+        "fechaRegistro": "2026-05-23T19:46:05.570",
+        "estado": "Activa",
+        "eliminado": false,
+        "suscripciones": [
+            {
+                "suscripcionId": 3,
+                "fechaInicio": "2024-02-01T00:00:00",
+                "estado": "Activa",
+                "plan": {
+                    "planId": 2,
+                    "nombre": "Premium",
+                    "precioMensual": 5.99,
+                    "descripcion": "Música sin anuncios, descargas offline, audio HQ"
+                }
+            }
+        ]
+    },
+    {
+        "usuarioId": 4,
+        "nombre": "Admin",
+        "apellido": "SoundWave",
+        "email": "admin@soundwave.com",
+        "contraseña": "admin_hash",
+        "pais": "Ecuador",
+        "fechaRegistro": "2026-05-23T19:46:05.570",
+        "estado": "Activa",
+        "eliminado": false
+    },
+    {
+        "usuarioId": 101,
+        "nombre": "Ariel",
+        "apellido": "Tejada",
+        "email": "ariel@gmail.com",
+        "contraseña": "1234",
+        "pais": "Ecuador",
+        "fechaRegistro": "2026-06-16T17:45:07.227",
+        "estado": "Activa",
+        "telefono": "0983785934",
+        "eliminado": false,
+        "suscripciones": [
+            {
+                "suscripcionId": 73,
+                "fechaInicio": "2026-06-16T17:45:07.253",
+                "estado": "Activa",
+                "plan": {
+                    "planId": 1,
+                    "nombre": "Gratis",
+                    "precioMensual": 0.0,
+                    "descripcion": "Música con anuncios, saltos limitados"
+                }
+            }
+        ]
+    }
+]

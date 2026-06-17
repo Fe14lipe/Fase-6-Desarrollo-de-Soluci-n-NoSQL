@@ -1,0 +1,98 @@
+[
+    {
+        "playlistId": 1,
+        "nombre": "Perreo Intenso 2024",
+        "fechaCreacion": "2026-05-23T19:46:05.607",
+        "privacidad": "Pública",
+        "usuarioId": 1,
+        "usuarioNombre": "Benjamin Perez",
+        "eliminado": false,
+        "canciones": [
+            {
+                "cancionId": 1,
+                "titulo": "Me Porto Bonito",
+                "duracion": 178,
+                "albumId": 1,
+                "albumTitulo": "Un Verano Sin Ti",
+                "artistaNombre": "Bad Bunny",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            },
+            {
+                "cancionId": 2,
+                "titulo": "Tití Me Preguntó",
+                "duracion": 243,
+                "albumId": 1,
+                "albumTitulo": "Un Verano Sin Ti",
+                "artistaNombre": "Bad Bunny",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            },
+            {
+                "cancionId": 5,
+                "titulo": "La Inocente",
+                "duracion": 200,
+                "albumId": 3,
+                "albumTitulo": "Microdosis",
+                "artistaNombre": "Mora",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            }
+        ]
+    },
+    {
+        "playlistId": 2,
+        "nombre": "Pop Vibes",
+        "fechaCreacion": "2026-05-23T19:46:05.607",
+        "privacidad": "Pública",
+        "usuarioId": 2,
+        "usuarioNombre": "Maria Gomez",
+        "eliminado": false,
+        "canciones": [
+            {
+                "cancionId": 3,
+                "titulo": "Levitating",
+                "duracion": 203,
+                "albumId": 2,
+                "albumTitulo": "Future Nostalgia",
+                "artistaNombre": "Dua Lipa",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            },
+            {
+                "cancionId": 4,
+                "titulo": "Don't Start Now",
+                "duracion": 183,
+                "albumId": 2,
+                "albumTitulo": "Future Nostalgia",
+                "artistaNombre": "Dua Lipa",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            }
+        ]
+    },
+    {
+        "playlistId": 3,
+        "nombre": "Mis Favoritas",
+        "fechaCreacion": "2026-05-23T19:46:05.607",
+        "privacidad": "Privada",
+        "usuarioId": 3,
+        "usuarioNombre": "Carlos Santana",
+        "eliminado": false,
+        "canciones": [
+            {
+                "cancionId": 1,
+                "titulo": "Me Porto Bonito",
+                "duracion": 178,
+                "albumId": 1,
+                "albumTitulo": "Un Verano Sin Ti",
+                "artistaNombre": "Bad Bunny",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            },
+            {
+                "cancionId": 6,
+                "titulo": "Volando",
+                "duracion": 215,
+                "albumId": 4,
+                "albumTitulo": "Sencillos EC",
+                "artistaNombre": "Banda Local EC",
+                "fechaAgregado": "2026-05-23T19:46:05.607"
+            }
+        ]
+    }
+]

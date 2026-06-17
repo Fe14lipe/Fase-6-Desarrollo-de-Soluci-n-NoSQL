@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel main-card fade-in">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+            <h2><i class="ph ph-trash" style="color: #ff6b6b;"></i> Papelera de Reciclaje</h2>
+            <p class="subtitle">Recupera los elementos eliminados o bórralos de forma permanente.</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="btn-secondary-custom" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 6px; padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #e2e8f0; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'; this.style.borderColor='rgba(255, 255, 255, 0.22)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.07)'; this.style.borderColor='rgba(255, 255, 255, 0.12)';">
+            <i class="ph ph-arrow-left" style="font-size: 1.25rem;"></i> Volver al Catálogo
+        </a>
+    </div>
+
+    <!-- Pestañas (Tabs) Estilo Spotify Premium -->
+    <div class="trash-tabs" style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.75rem;">
+        <button class="tab-btn active" data-tab="tab-discograficas" onclick="switchTab('tab-discograficas')" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s; border-radius: 4px;">
+            <i class="ph ph-buildings"></i> Discográficas ({{ discograficas|length }})
+        </button>
+        <button class="tab-btn" data-tab="tab-artistas" onclick="switchTab('tab-artistas')" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s; border-radius: 4px;">
+            <i class="ph ph-microphone-stage"></i> Artistas ({{ artistas|length }})
+        </button>
+        <button class="tab-btn" data-tab="tab-canciones" onclick="switchTab('tab-canciones')" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s; border-radius: 4px;">
+            <i class="ph ph-music-notes"></i> Canciones ({{ canciones|length }})
+        </button>
+        <button class="tab-btn" data-tab="tab-playlists" onclick="switchTab('tab-playlists')" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s; border-radius: 4px;">
+            <i class="ph ph-playlist"></i> Playlists ({{ playlists|length }})
+        </button>
+        <button class="tab-btn" data-tab="tab-usuarios" onclick="switchTab('tab-usuarios')" style="background: transparent; border: none; color: var(--text-secondary); font-size: 1rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.2s; border-radius: 4px;">
+            <i class="ph ph-users"></i> Usuarios ({{ usuarios|length }})
+        </button>
+    </div>
+
+
+    <!-- Contenido de las pestañas -->
+    
+    <!-- 1. TAB DISCOGRAFICAS -->
+    <div id="tab-discograficas" class="tab-content">
+        <div class="table-responsive">
+            {% if discograficas %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>País</th>
+                        <th>Fundación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in discograficas %}
+                    <tr>
+                        <td class="col-id">#{{ d.id }}</td>
+                        <td class="col-name"><strong>{{ d.nombre }}</strong></td>
+                        <td class="col-country"><i class="ph ph-flag"></i> {{ d.pais }}</td>
+                        <td class="col-date">{{ d.fechaFundacion }}</td>
+                        <td class="col-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ url_for('restore', nombre=d.nombre) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Deseas restaurar a {{ d.nombre }} al catálogo activo?');">
+                                <button type="submit" class="btn-icon edit" style="background: rgba(46, 213, 115, 0.1); border-color: rgba(46, 213, 115, 0.2); color: #2ed573;" title="Restaurar Discográfica">
+                                    <i class="ph ph-arrow-counter-clockwise" style="font-size: 1.1rem; font-weight: bold;"></i>
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_permanent', nombre=d.nombre) }}" method="POST" class="inline-form" onsubmit="return confirm('ATENCIÓN: ¿Estás seguro de eliminar PERMANENTEMENTE a {{ d.nombre }}? Esta acción no se puede deshacer y fallará si tiene artistas asociados.');">
+                                <button type="submit" class="btn-icon delete" style="background: rgba(255, 74, 90, 0.1); border-color: rgba(255, 74, 90, 0.2); color: #ff4a5a;" title="Eliminar Permanentemente">
+                                    <i class="ph ph-trash-simple" style="font-size: 1.1rem;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state-small">
+                <i class="ph ph-buildings" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                <p>Sin discográficas eliminadas</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 2. TAB ARTISTAS -->
+    <div id="tab-artistas" class="tab-content" style="display: none;">
+        <div class="table-responsive">
+            {% if artistas %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Artístico</th>
+                        <th>País</th>
+                        <th>Inicio de Carrera</th>
+                        <th>Discográfica</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in artistas %}
+                    <tr>
+                        <td class="col-id">#{{ a.artistaId }}</td>
+                        <td class="col-name"><strong>{{ a.nombreArtistico }}</strong></td>
+                        <td class="col-country"><i class="ph ph-flag"></i> {{ a.pais }}</td>
+                        <td class="col-date">{{ a.fechaInicio }}</td>
+                        <td>{{ a.nombre if a.nombre else 'Independiente' }}</td>
+                        <td class="col-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ url_for('restore_artista', artista_id=a.artistaId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Deseas restaurar a {{ a.nombreArtistico }} al catálogo activo?');">
+                                <button type="submit" class="btn-icon edit" style="background: rgba(46, 213, 115, 0.1); border-color: rgba(46, 213, 115, 0.2); color: #2ed573;" title="Restaurar Artista">
+                                    <i class="ph ph-arrow-counter-clockwise" style="font-size: 1.1rem; font-weight: bold;"></i>
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_permanent_artista', artista_id=a.artistaId) }}" method="POST" class="inline-form" onsubmit="return confirm('ATENCIÓN: ¿Estás seguro de eliminar PERMANENTEMENTE a {{ a.nombreArtistico }}? Esta acción no se puede deshacer y fallará si tiene álbumes o canciones en la plataforma.');">
+                                <button type="submit" class="btn-icon delete" style="background: rgba(255, 74, 90, 0.1); border-color: rgba(255, 74, 90, 0.2); color: #ff4a5a;" title="Eliminar Permanentemente">
+                                    <i class="ph ph-trash-simple" style="font-size: 1.1rem;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state-small">
+                <i class="ph ph-microphone-stage" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                <p>Sin artistas eliminados</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 3. TAB CANCIONES -->
+    <div id="tab-canciones" class="tab-content" style="display: none;">
+        <div class="table-responsive">
+            {% if canciones %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Álbum</th>
+                        <th>Duración</th>
+                        <th>Clasificación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in canciones %}
+                    <tr>
+                        <td class="col-id">#{{ c.cancionId }}</td>
+                        <td class="col-name"><strong>{{ c.titulo }}</strong></td>
+                        <td>{{ c.album }}</td>
+                        <td style="font-family: monospace;">{{ c.duracion }}s</td>
+                        <td>
+                            {% if c.explicita %}
+                            <span style="background: rgba(239,68,68,0.2); color: #fca5a5; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">E</span>
+                            {% else %}
+                            <span style="color: var(--text-secondary);">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="col-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ url_for('restore_cancion', cancion_id=c.cancionId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Deseas restaurar la canción {{ c.titulo }}?');">
+                                <button type="submit" class="btn-icon edit" style="background: rgba(46, 213, 115, 0.1); border-color: rgba(46, 213, 115, 0.2); color: #2ed573;" title="Restaurar Canción">
+                                    <i class="ph ph-arrow-counter-clockwise" style="font-size: 1.1rem; font-weight: bold;"></i>
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_permanent_cancion', cancion_id=c.cancionId) }}" method="POST" class="inline-form" onsubmit="return confirm('ATENCIÓN: ¿Estás seguro de eliminar PERMANENTEMENTE la canción {{ c.titulo }}? Se borrará todo su historial de reproducciones, regalías y likes.');">
+                                <button type="submit" class="btn-icon delete" style="background: rgba(255, 74, 90, 0.1); border-color: rgba(255, 74, 90, 0.2); color: #ff4a5a;" title="Eliminar Permanentemente">
+                                    <i class="ph ph-trash-simple" style="font-size: 1.1rem;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state-small">
+                <i class="ph ph-music-notes" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                <p>Sin canciones eliminadas</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 4. TAB PLAYLISTS -->
+    <div id="tab-playlists" class="tab-content" style="display: none;">
+        <div class="table-responsive">
+            {% if playlists %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Creador</th>
+                        <th>Privacidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in playlists %}
+                    <tr>
+                        <td class="col-id">#{{ p.playlistId }}</td>
+                        <td class="col-name"><strong>{{ p.nombre }}</strong></td>
+                        <td style="color: #93c5fd;">{{ p.creador }}</td>
+                        <td>
+                            {% if p.privacidad == 'Pública' %}
+                            <span style="background: rgba(16,185,129,0.2); color: #34d399; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;"><i class="ph ph-globe"></i> Pública</span>
+                            {% else %}
+                            <span style="background: rgba(245,158,11,0.2); color: #fbbf24; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;"><i class="ph ph-lock"></i> Privada</span>
+                            {% endif %}
+                        </td>
+                        <td class="col-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ url_for('restore_playlist', playlist_id=p.playlistId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Deseas restaurar la playlist {{ p.nombre }}?');">
+                                <button type="submit" class="btn-icon edit" style="background: rgba(46, 213, 115, 0.1); border-color: rgba(46, 213, 115, 0.2); color: #2ed573;" title="Restaurar Playlist">
+                                    <i class="ph ph-arrow-counter-clockwise" style="font-size: 1.1rem; font-weight: bold;"></i>
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_permanent_playlist', playlist_id=p.playlistId) }}" method="POST" class="inline-form" onsubmit="return confirm('ATENCIÓN: ¿Estás seguro de eliminar PERMANENTEMENTE la playlist {{ p.nombre }}? Se desvincularán todas las canciones asociadas de forma irreversible.');">
+                                <button type="submit" class="btn-icon delete" style="background: rgba(255, 74, 90, 0.1); border-color: rgba(255, 74, 90, 0.2); color: #ff4a5a;" title="Eliminar Permanentemente">
+                                    <i class="ph ph-trash-simple" style="font-size: 1.1rem;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state-small">
+                <i class="ph ph-playlist" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                <p>Sin playlists eliminadas</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 5. TAB USUARIOS -->
+    <div id="tab-usuarios" class="tab-content" style="display: none;">
+        <div class="table-responsive">
+            {% if usuarios %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Email</th>
+                        <th>País</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in usuarios %}
+                    <tr>
+                        <td class="col-id">#{{ u.usuarioId }}</td>
+                        <td class="col-name"><strong>{{ u.nombre }} {{ u.apellido }}</strong></td>
+                        <td style="color: #93c5fd;">{{ u.email }}</td>
+                        <td class="col-country"><i class="ph ph-flag"></i> {{ u.pais }}</td>
+                        <td>
+                            {% if u.estado == 'Activa' %}
+                            <span style="background: rgba(16,185,129,0.2); color: #34d399; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">Activa</span>
+                            {% else %}
+                            <span style="background: rgba(239,68,68,0.2); color: #fca5a5; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem;">{{ u.estado }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="col-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+                            <form action="{{ url_for('restore_usuario', usuario_id=u.usuarioId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Deseas restaurar al usuario {{ u.nombre }} {{ u.apellido }}?');">
+                                <button type="submit" class="btn-icon edit" style="background: rgba(46, 213, 115, 0.1); border-color: rgba(46, 213, 115, 0.2); color: #2ed573;" title="Restaurar Usuario">
+                                    <i class="ph ph-arrow-counter-clockwise" style="font-size: 1.1rem; font-weight: bold;"></i>
+                                </button>
+                            </form>
+                            <form action="{{ url_for('delete_permanent_usuario', usuario_id=u.usuarioId) }}" method="POST" class="inline-form" onsubmit="return confirm('ATENCIÓN CRÍTICA: ¿Estás seguro de eliminar PERMANENTEMENTE al usuario {{ u.nombre }} {{ u.apellido }}? Se borrarán de forma irreversible todas sus suscripciones, historial de pagos y reproducciones.');">
+                                <button type="submit" class="btn-icon delete" style="background: rgba(255, 74, 90, 0.1); border-color: rgba(255, 74, 90, 0.2); color: #ff4a5a;" title="Eliminar Permanentemente">
+                                    <i class="ph ph-trash-simple" style="font-size: 1.1rem;"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state-small">
+                <i class="ph ph-users" style="font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.5rem;"></i>
+                <p>Sin usuarios eliminados</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<style>
+.tab-btn:hover {
+    color: #fff !important;
+    background: rgba(255,255,255,0.03) !important;
+}
+.tab-btn.active {
+    color: #00f2fe !important;
+    background: rgba(0, 242, 254, 0.1) !important;
+    border-bottom: 2px solid #00f2fe !important;
+}
+.empty-state-small {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255,255,255,0.01);
+    border-radius: 8px;
+    border: 1px dashed rgba(255,255,255,0.05);
+    margin: 1rem 0;
+}
+</style>
+
+<script>
+function switchTab(tabId) {
+    // Esconder todos los contenidos
+    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+    
+    // Desactivar todos los botones
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Mostrar contenido seleccionado
+    document.getElementById(tabId).style.display = 'block';
+    
+    // Activar botón seleccionado
+    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    // Actualizar hash de la URL
+    window.location.hash = tabId;
+}
+
+// Cargar la pestaña correcta al cargar la página a partir del hash URL
+document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash && document.getElementById(hash.substring(1))) {
+        switchTab(hash.substring(1));
+    }
+});
+</script>
+{% endblock %}

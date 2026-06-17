@@ -1,0 +1,308 @@
+[
+    {
+        "artistaId": 1,
+        "nombreArtistico": "Bad Bunny",
+        "pais": "Puerto Rico",
+        "fechaInicio": "2016-01-01",
+        "discograficaId": 1,
+        "discograficaNombre": "Rimas Entertainment",
+        "eliminado": false
+    },
+    {
+        "artistaId": 2,
+        "nombreArtistico": "Dua Lipa",
+        "pais": "Reino Unido",
+        "fechaInicio": "2015-01-01",
+        "discograficaId": 2,
+        "discograficaNombre": "Warner Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 3,
+        "nombreArtistico": "Mora",
+        "pais": "Puerto Rico",
+        "fechaInicio": "2017-01-01",
+        "discograficaId": 1,
+        "discograficaNombre": "Rimas Entertainment",
+        "eliminado": false
+    },
+    {
+        "artistaId": 4,
+        "nombreArtistico": "Banda Local EC",
+        "pais": "Ecuador",
+        "fechaInicio": "2020-01-01",
+        "discograficaId": 3,
+        "discograficaNombre": "Independiente",
+        "eliminado": false
+    },
+    {
+        "artistaId": 5,
+        "nombreArtistico": "Morat",
+        "pais": "Colombia",
+        "fechaInicio": "2015-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 6,
+        "nombreArtistico": "Shakira",
+        "pais": "Colombia",
+        "fechaInicio": "1990-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 7,
+        "nombreArtistico": "Juanes",
+        "pais": "Colombia",
+        "fechaInicio": "2000-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 8,
+        "nombreArtistico": "J Balvin",
+        "pais": "Colombia",
+        "fechaInicio": "2009-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 9,
+        "nombreArtistico": "Karol G",
+        "pais": "Colombia",
+        "fechaInicio": "2007-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 10,
+        "nombreArtistico": "Feid",
+        "pais": "Colombia",
+        "fechaInicio": "2015-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 11,
+        "nombreArtistico": "Rosalía",
+        "pais": "España",
+        "fechaInicio": "2017-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 12,
+        "nombreArtistico": "Rauw Alejandro",
+        "pais": "Puerto Rico",
+        "fechaInicio": "2014-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 13,
+        "nombreArtistico": "Tierra Canela",
+        "pais": "Ecuador",
+        "fechaInicio": "1998-01-01",
+        "discograficaId": 8,
+        "discograficaNombre": "Indie Records EC",
+        "eliminado": false
+    },
+    {
+        "artistaId": 14,
+        "nombreArtistico": "Taylor Swift",
+        "pais": "USA",
+        "fechaInicio": "2006-01-01",
+        "discograficaId": 7,
+        "discograficaNombre": "Republic Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 15,
+        "nombreArtistico": "The Weeknd",
+        "pais": "Canadá",
+        "fechaInicio": "2010-01-01",
+        "discograficaId": 7,
+        "discograficaNombre": "Republic Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 16,
+        "nombreArtistico": "Adele",
+        "pais": "UK",
+        "fechaInicio": "2006-01-01",
+        "discograficaId": 1,
+        "discograficaNombre": "Rimas Entertainment",
+        "eliminado": false
+    },
+    {
+        "artistaId": 17,
+        "nombreArtistico": "Ed Sheeran",
+        "pais": "UK",
+        "fechaInicio": "2004-01-01",
+        "discograficaId": 2,
+        "discograficaNombre": "Warner Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 18,
+        "nombreArtistico": "Harry Styles",
+        "pais": "UK",
+        "fechaInicio": "2010-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 19,
+        "nombreArtistico": "Billie Eilish",
+        "pais": "USA",
+        "fechaInicio": "2015-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 20,
+        "nombreArtistico": "Eminem",
+        "pais": "USA",
+        "fechaInicio": "1996-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 21,
+        "nombreArtistico": "Drake",
+        "pais": "Canadá",
+        "fechaInicio": "2006-01-01",
+        "discograficaId": 7,
+        "discograficaNombre": "Republic Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 22,
+        "nombreArtistico": "The Beatles",
+        "pais": "UK",
+        "fechaInicio": "1960-01-01",
+        "discograficaId": 6,
+        "discograficaNombre": "EMI Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 23,
+        "nombreArtistico": "Queen",
+        "pais": "UK",
+        "fechaInicio": "1970-01-01",
+        "discograficaId": 6,
+        "discograficaNombre": "EMI Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 24,
+        "nombreArtistico": "Coldplay",
+        "pais": "UK",
+        "fechaInicio": "1996-01-01",
+        "discograficaId": 6,
+        "discograficaNombre": "EMI Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 25,
+        "nombreArtistico": "Metallica",
+        "pais": "USA",
+        "fechaInicio": "1981-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 26,
+        "nombreArtistico": "AC/DC",
+        "pais": "Australia",
+        "fechaInicio": "1973-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 27,
+        "nombreArtistico": "Nirvana",
+        "pais": "USA",
+        "fechaInicio": "1987-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 28,
+        "nombreArtistico": "Arctic Monkeys",
+        "pais": "UK",
+        "fechaInicio": "2002-01-01",
+        "discograficaId": 6,
+        "discograficaNombre": "EMI Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 29,
+        "nombreArtistico": "Tame Impala",
+        "pais": "Australia",
+        "fechaInicio": "2007-01-01",
+        "discograficaId": 4,
+        "discograficaNombre": "Universal Music Group",
+        "eliminado": false
+    },
+    {
+        "artistaId": 30,
+        "nombreArtistico": "Aventura",
+        "pais": "USA",
+        "fechaInicio": "1994-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 31,
+        "nombreArtistico": "Romeo Santos",
+        "pais": "USA",
+        "fechaInicio": "2011-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 32,
+        "nombreArtistico": "Vicente Fernández",
+        "pais": "México",
+        "fechaInicio": "1966-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    },
+    {
+        "artistaId": 33,
+        "nombreArtistico": "Luis Miguel",
+        "pais": "México",
+        "fechaInicio": "1981-01-01",
+        "discograficaId": 2,
+        "discograficaNombre": "Warner Records",
+        "eliminado": false
+    },
+    {
+        "artistaId": 34,
+        "nombreArtistico": "Soda Stereo",
+        "pais": "Argentina",
+        "fechaInicio": "1982-01-01",
+        "discograficaId": 5,
+        "discograficaNombre": "Sony Music Latin",
+        "eliminado": false
+    }
+]

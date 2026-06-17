@@ -1,0 +1,92 @@
+[
+    {
+        "reproduccionId": 40,
+        "fechaHora": "2026-06-16T02:34:49.733",
+        "duracionEscuchada": 231,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 7,
+        "cancionTitulo": "Besos en Guerra",
+        "artistaNombre": "Morat"
+    },
+    {
+        "reproduccionId": 43,
+        "fechaHora": "2026-06-16T02:39:31.327",
+        "duracionEscuchada": 255,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 29,
+        "cancionTitulo": "Back in Black",
+        "artistaNombre": "AC/DC"
+    },
+    {
+        "reproduccionId": 44,
+        "fechaHora": "2026-06-16T02:39:46.483",
+        "duracionEscuchada": 200,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 18,
+        "cancionTitulo": "Blinding Lights",
+        "artistaNombre": "The Weeknd"
+    },
+    {
+        "reproduccionId": 45,
+        "fechaHora": "2026-06-16T02:39:55.933",
+        "duracionEscuchada": 200,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 18,
+        "cancionTitulo": "Blinding Lights",
+        "artistaNombre": "The Weeknd"
+    },
+    {
+        "reproduccionId": 46,
+        "fechaHora": "2026-06-16T02:39:58.483",
+        "duracionEscuchada": 167,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 21,
+        "cancionTitulo": "As It Was",
+        "artistaNombre": "Harry Styles"
+    },
+    {
+        "reproduccionId": 47,
+        "fechaHora": "2026-06-16T02:40:05.323",
+        "duracionEscuchada": 183,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 4,
+        "cancionTitulo": "Don't Start Now",
+        "artistaNombre": "Dua Lipa"
+    },
+    {
+        "reproduccionId": 49,
+        "fechaHora": "2026-06-16T02:45:45.607",
+        "duracionEscuchada": 215,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 6,
+        "cancionTitulo": "Volando",
+        "artistaNombre": "Banda Local EC"
+    },
+    {
+        "reproduccionId": 51,
+        "fechaHora": "2026-06-16T02:46:07.383",
+        "duracionEscuchada": 185,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 36,
+        "cancionTitulo": "Por Debajo de la Mesa",
+        "artistaNombre": "Luis Miguel"
+    },
+    {
+        "reproduccionId": 52,
+        "fechaHora": "2026-06-16T02:46:37.703",
+        "duracionEscuchada": 190,
+        "dispositivo": "Web",
+        "usuarioId": 1,
+        "cancionId": 14,
+        "cancionTitulo": "Punto 40",
+        "artistaNombre": "Rauw Alejandro"
+    }
+]

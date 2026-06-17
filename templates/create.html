@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in">
+    <div class="card-header text-center">
+        <div class="icon-circle"><i class="ph ph-buildings"></i></div>
+        <h2>Nueva Discográfica</h2>
+        <p class="subtitle">Añade una nueva compañía al sistema.</p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="nombre"><i class="ph ph-text-aa"></i> Nombre de la Discográfica</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. Sony Music" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="pais"><i class="ph ph-globe-hemisphere-west"></i> País de Origen</label>
+            <input type="text" id="pais" name="pais" placeholder="Ej. Estados Unidos" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="fechaFundacion"><i class="ph ph-calendar-blank"></i> Fecha de Fundación</label>
+            <input type="date" id="fechaFundacion" name="fechaFundacion">
+        </div>
+        
+        <div class="form-actions">
+            <a href="{{ url_for('index') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary"><i class="ph ph-floppy-disk"></i> Guardar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

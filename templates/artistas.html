@@ -1,0 +1,445 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.artist-card-item {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.artist-card-item:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(0, 242, 254, 0.2) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.artist-card-item.active {
+    background: rgba(139, 92, 246, 0.15) !important;
+    border-color: rgba(139, 92, 246, 0.4) !important;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2) !important;
+}
+.artist-card-item.active h4 {
+    color: #a78bfa !important;
+}
+.artist-card-item.active .ph-caret-right {
+    color: #a78bfa !important;
+    transform: translateX(4px);
+}
+.album-card-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+.album-card-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 242, 254, 0.15);
+}
+.song-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.01);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all 0.2s ease-in-out;
+}
+.song-row-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    color: #fff !important;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(0, 242, 254, 0.25) !important;
+    transform: translateY(-1px);
+}
+.pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+</style>
+
+<div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; width: 100%;">
+    <!-- Lista de Artistas -->
+    <div class="glass-panel main-card fade-in" style="flex: 1.2; min-width: 450px; padding: 2rem;">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+                <h2><i class="ph ph-microphone-stage" style="color: #8b5cf6;"></i> Catálogo de Artistas</h2>
+                <p class="subtitle">Selecciona cualquier artista para ver sus álbumes y canciones.</p>
+            </div>
+            {% if session.get('is_admin') %}
+            <div style="display: flex; gap: 0.75rem;">
+                <a href="{{ url_for('papelera') }}#tab-artistas" class="btn-secondary-custom" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 6px; padding: 0.6rem 1.2rem; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #e2e8f0; font-weight: 500; font-size: 0.9rem; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)'; this.style.borderColor='rgba(255, 255, 255, 0.22)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.07)'; this.style.borderColor='rgba(255, 255, 255, 0.12)';">
+                    <i class="ph ph-trash" style="font-size: 1.2rem; color: #ff6b6b;"></i> Ver Papelera
+                </a>
+                <a href="{{ url_for('create_artista') }}" class="btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; border-radius: 6px; padding: 0.6rem 1.2rem; background: #8b5cf6; border: none; color: #fff; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='#7c3aed';" onmouseout="this.style.background='#8b5cf6';">
+                    <i class="ph ph-plus-circle" style="font-size: 1.25rem;"></i> Agregar Artista
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="artist-list-container">
+            {% if artistas %}
+            <div class="artist-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                {% for a in artistas %}
+                <div class="artist-card-item" data-id="{{ a.artistaId }}" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-radius: 12px; cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <!-- Artist circle avatar -->
+                        <div class="artist-avatar" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #ec4899); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 700; color: #fff; font-size: 1.1rem; text-transform: uppercase;">
+                            {{ a.nombreArtistico[:2] }}
+                        </div>
+                        <div>
+                            <h4 style="margin: 0; font-size: 1.1rem; color: #fff; font-weight: 600;">{{ a.nombreArtistico }}</h4>
+                            <p style="margin: 3px 0 0 0; font-size: 0.8rem; color: var(--text-secondary);"><i class="ph ph-flag" style="font-size: 0.85rem; vertical-align: middle;"></i> {{ a.pais }}</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        {% if session.get('is_admin') %}
+                        <!-- Admin Actions -->
+                        <div class="admin-actions" style="display: flex; gap: 0.5rem;" onclick="event.stopPropagation();">
+                            <a href="{{ url_for('edit_artista', artista_id=a.artistaId) }}" class="btn-icon edit" title="Editar" style="width: 32px; height: 32px; font-size: 1rem; border-radius: 6px;"><i class="ph ph-pencil-simple"></i></a>
+                            <form action="{{ url_for('delete_artista', artista_id=a.artistaId) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Estás seguro de mover a {{ a.nombreArtistico }} a la papelera?');" style="display: inline-block;">
+                                <button type="submit" class="btn-icon delete" title="Mover a papelera" style="width: 32px; height: 32px; font-size: 1rem; border-radius: 6px;"><i class="ph ph-trash"></i></button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        <i class="ph ph-caret-right" style="color: var(--text-secondary); font-size: 1.25rem; transition: transform 0.2s;"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="ph ph-ghost"></i>
+                <h3>No hay artistas registrados</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Panel de Detalle Derecho (Spotify Style) -->
+    <div class="glass-panel fade-in" id="detail-panel" style="flex: 1.5; min-width: 450px; padding: 2rem; position: sticky; top: 120px; border-radius: 12px;">
+        <div id="detail-empty-state" class="empty-state" style="padding: 4rem 0;">
+            <i class="ph ph-user-circle" style="font-size: 4rem; color: var(--text-secondary); opacity: 0.5;"></i>
+            <h4 style="margin-top: 1rem; color: var(--text-secondary); font-size: 1.2rem;">Detalle del Artista</h4>
+            <p style="font-size: 0.85rem; max-width: 300px; margin: 0.5rem auto 0; line-height: 1.5;">Selecciona un artista de la lista de la izquierda para ver su información detallada, álbumes y canciones.</p>
+        </div>
+
+        <div id="detail-content" style="display: none;">
+            <!-- Header Card (Spotify Style) -->
+            <div class="detail-header-card" style="display: flex; gap: 1.5rem; align-items: center; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                <div id="det-artist-avatar-container" style="width: 90px; height: 90px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); flex-shrink: 0; overflow: hidden;">
+                    <i class="ph ph-microphone-stage" style="font-size: 2.5rem; color: #fff;"></i>
+                </div>
+                <div>
+                    <h3 id="det-artist-name" style="font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 700; margin: 0 0 0.25rem 0; color: #fff;">Nombre Artista</h3>
+                    <p id="det-artist-meta" style="color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 0.4rem 0;">Originario de País &bull; Género: Pop</p>
+                    <p id="det-artist-listeners" style="color: #00f2fe; font-size: 0.85rem; margin: 0; font-family: monospace; font-weight: 600;">48.5M oyentes globales</p>
+                </div>
+            </div>
+
+            <!-- Listado de Álbumes -->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="font-size: 0.85rem; color: #00f2fe; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="ph ph-disc"></i> Álbumes Publicados</h4>
+                <div id="det-albums-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; max-height: 180px; overflow-y: auto; padding-right: 0.5rem;">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Listado de Canciones -->
+            <div style="margin-bottom: 1rem;">
+                <h4 style="font-size: 0.85rem; color: #00f2fe; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;"><i class="ph ph-music-notes"></i> Canciones Disponibles</h4>
+                <div id="det-songs-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 250px; overflow-y: auto; padding-right: 0.5rem;">
+                    <!-- Se carga dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Panel de Detalle Footer -->
+            <div id="detail-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; color: var(--text-secondary); font-family: monospace;">
+                <span>Instancia: MS SQL SERVER v16.0</span>
+                <span id="det-load-time">Consumido por AJAX en 0ms</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.artist-card-item');
+    const emptyState = document.getElementById('detail-empty-state');
+    const contentPanel = document.getElementById('detail-content');
+    
+    // Elementos de detalle
+    const artistName = document.getElementById('det-artist-name');
+    const artistMeta = document.getElementById('det-artist-meta');
+    const artistListeners = document.getElementById('det-artist-listeners');
+    const albumsList = document.getElementById('det-albums-list');
+    const songsList = document.getElementById('det-songs-list');
+    const avatarContainer = document.getElementById('det-artist-avatar-container');
+    const loadTimeText = document.getElementById('det-load-time');
+
+    // Paginación de Artistas (10 por página)
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    const totalItems = cards.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    
+    if (totalPages > 1) {
+        const artistListContainer = document.querySelector('.artist-list-container');
+        const paginationControls = document.createElement('div');
+        paginationControls.className = 'pagination-controls';
+        paginationControls.style.cssText = 'display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.25rem;';
+        
+        paginationControls.innerHTML = `
+            <button id="prev-page-btn" class="pagination-btn"><i class="ph ph-caret-left"></i> Anterior</button>
+            <span id="page-info" style="font-size: 0.85rem; color: var(--text-secondary); font-family: monospace; font-weight: 500;">Pág. 1 de ${totalPages}</span>
+            <button id="next-page-btn" class="pagination-btn">Siguiente <i class="ph ph-caret-right"></i></button>
+        `;
+        artistListContainer.appendChild(paginationControls);
+        
+        const prevBtn = document.getElementById('prev-page-btn');
+        const nextBtn = document.getElementById('next-page-btn');
+        const pageInfo = document.getElementById('page-info');
+        
+        function updatePagination() {
+            cards.forEach((card, idx) => {
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                if (idx >= start && idx < end) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            pageInfo.textContent = `Pág. ${currentPage} de ${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+            }
+        });
+        
+        updatePagination();
+    }
+
+    // 1. Cargar avatares de artistas desde iTunes API (con caché)
+    async function loadArtistAvatars() {
+        cards.forEach(async (card) => {
+            const h4 = card.querySelector('h4');
+            if (!h4) return;
+            const name = h4.textContent.trim();
+            const avatarDiv = card.querySelector('.artist-avatar');
+            const cacheKey = `soundwave_avatar_${name.replace(/\s+/g, '_')}`;
+            const cachedUrl = localStorage.getItem(cacheKey);
+
+            const renderAvatar = (url) => {
+                avatarDiv.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" alt="${name}">`;
+            };
+
+            if (cachedUrl) {
+                renderAvatar(cachedUrl);
+            } else {
+                try {
+                    const query = encodeURIComponent(name);
+                    const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+                    const data = await response.json();
+                    if (data.results && data.results.length > 0) {
+                        const artworkUrl = data.results[0].artworkUrl100;
+                        if (artworkUrl) {
+                            localStorage.setItem(cacheKey, artworkUrl);
+                            renderAvatar(artworkUrl);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error cargando avatar para', name, e);
+                }
+            }
+        });
+    }
+
+    loadArtistAvatars();
+
+    // 2. Auxiliar para cargar portadas de álbumes
+    async function fetchAlbumCover(albumTitle, artistName, imgElementId) {
+        const cacheKey = `soundwave_cover_${albumTitle}_${artistName}`.replace(/\s+/g, '_');
+        const cachedUrl = localStorage.getItem(cacheKey);
+        const container = document.getElementById(imgElementId);
+        if (!container) return;
+
+        const renderImg = (url) => {
+            container.innerHTML = `<img src="${url}" style="width: 100%; height: 100%; object-fit: cover;" alt="${albumTitle}">`;
+        };
+
+        if (cachedUrl) {
+            renderImg(cachedUrl);
+        } else {
+            try {
+                const query = encodeURIComponent(`${albumTitle} ${artistName}`);
+                const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    const artworkUrl = data.results[0].artworkUrl100;
+                    if (artworkUrl) {
+                        localStorage.setItem(cacheKey, artworkUrl);
+                        renderImg(artworkUrl);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+
+    // 3. Manejo de clicks en lista
+    cards.forEach(card => {
+        card.addEventListener('click', async () => {
+            // Remover clase activa de otras tarjetas
+            cards.forEach(c => c.classList.remove('active'));
+            card.classList.add('active'); // Resaltar seleccionada
+
+            const artistId = card.getAttribute('data-id');
+            emptyState.style.display = 'none';
+            contentPanel.style.display = 'block';
+
+            // Medición de rendimiento
+            const startTime = performance.now();
+
+            // Resetear listados con loaders
+            albumsList.innerHTML = '<div style="grid-column: 1/-1; font-size: 0.85rem; color: var(--text-secondary); padding: 1rem 0;">Cargando álbumes...</div>';
+            songsList.innerHTML = '<div style="font-size: 0.85rem; color: var(--text-secondary); padding: 1rem 0;">Cargando catálogo de canciones...</div>';
+
+            try {
+                const response = await fetch(`/api/artista/${artistId}`);
+                if (!response.ok) throw new Error('Error al cargar datos');
+                const data = await response.json();
+
+                // Cargar avatar en el panel de detalle
+                const cachedAvatar = localStorage.getItem(`soundwave_avatar_${data.artista.nombre.replace(/\s+/g, '_')}`);
+                if (cachedAvatar) {
+                    avatarContainer.innerHTML = `<img src="${cachedAvatar}" style="width: 100%; height: 100%; object-fit: cover;" alt="${data.artista.nombre}">`;
+                } else {
+                    avatarContainer.innerHTML = `<i class="ph ph-microphone-stage" style="font-size: 2.5rem; color: #fff;"></i>`;
+                }
+
+                // Cargar datos principales
+                artistName.textContent = data.artista.nombre;
+                artistMeta.innerHTML = `Originario de ${data.artista.pais} &bull; Género: ${data.artista.genero}`;
+                artistListeners.textContent = `${data.artista.oyentes} oyentes globales`;
+
+                // Calcular cantidad de canciones por álbum en JS
+                const albumSongCounts = {};
+                data.albumes.forEach(al => {
+                    albumSongCounts[al.titulo] = 0;
+                });
+                data.canciones.forEach(song => {
+                    if (albumSongCounts[song.album] !== undefined) {
+                        albumSongCounts[song.album]++;
+                    }
+                });
+
+                // Cargar álbumes
+                albumsList.innerHTML = '';
+                if (data.albumes.length > 0) {
+                    data.albumes.forEach((al, idx) => {
+                        const albumDiv = document.createElement('div');
+                        albumDiv.className = 'album-card-item';
+                        const coverId = `det-album-cover-${al.id}-${idx}`;
+                        const songCount = albumSongCounts[al.titulo] || 0;
+                        
+                        albumDiv.innerHTML = `
+                            <div id="${coverId}" style="width: 48px; height: 48px; border-radius: 4px; background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; overflow: hidden;">
+                                <i class="ph ph-disc" style="font-size: 1.5rem; color: #a78bfa;"></i>
+                            </div>
+                            <div style="overflow: hidden;">
+                                <h5 style="margin: 0; font-size: 0.9rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${al.titulo}">${al.titulo}</h5>
+                                <p style="margin: 3px 0 0 0; font-size: 0.75rem; color: var(--text-secondary);">${al.fechaLanzamiento.substring(0,4)} &bull; ${songCount} canciones</p>
+                            </div>
+                        `;
+                        albumsList.appendChild(albumDiv);
+                        
+                        // Cargar portada de álbum asíncronamente
+                        fetchAlbumCover(al.titulo, data.artista.nombre, coverId);
+                    });
+                } else {
+                    albumsList.innerHTML = '<div style="grid-column: 1/-1; font-size: 0.85rem; color: var(--text-secondary); padding: 1rem 0;">Sin álbumes registrados</div>';
+                }
+
+                // Cargar canciones
+                songsList.innerHTML = '';
+                if (data.canciones.length > 0) {
+                    data.canciones.forEach((song, idx) => {
+                        const songDiv = document.createElement('div');
+                        songDiv.className = 'song-row-item';
+                        
+                        songDiv.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <span style="font-family: monospace; color: var(--text-secondary); font-size: 0.85rem; width: 20px; text-align: center;">${idx + 1}</span>
+                                <div>
+                                    <span style="font-weight: 500; color: #fff; font-size: 0.9rem;">${song.titulo}</span>
+                                    <br>
+                                    <small style="color: var(--text-secondary); font-size: 0.75rem;">${song.album}</small>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-family: monospace; color: var(--text-secondary); font-size: 0.8rem;">${Math.floor(song.duracion / 60)}:${String(song.duracion % 60).padStart(2, '0')}</span>
+                                <button class="table-play-btn" style="width: 28px; height: 28px; font-size: 0.85rem;" onclick="playSong('${song.titulo}', '${song.album}')">
+                                    <i class="ph-fill ph-play"></i>
+                                </button>
+                            </div>
+                        `;
+                        songsList.appendChild(songDiv);
+                    });
+                } else {
+                    songsList.innerHTML = '<div style="font-size: 0.85rem; color: var(--text-secondary); padding: 1rem 0;">Sin canciones registradas</div>';
+                }
+
+                // Fin de medición de rendimiento
+                const endTime = performance.now();
+                const elapsed = Math.round(endTime - startTime);
+                loadTimeText.textContent = `Consumido por AJAX en ${elapsed}ms`;
+
+            } catch (e) {
+                console.error(e);
+                albumsList.innerHTML = '<div style="grid-column: 1/-1; font-size: 0.85rem; color: #ef4444; padding: 1rem 0;">Error al cargar discografía.</div>';
+                songsList.innerHTML = '<div style="font-size: 0.85rem; color: #ef4444; padding: 1rem 0;">Error al cargar catálogo de canciones.</div>';
+            }
+        });
+    });
+
+    // Simular click en la primera tarjeta al cargar
+    if (cards.length > 0) {
+        cards[0].click();
+    }
+});
+</script>
+{% endblock %}

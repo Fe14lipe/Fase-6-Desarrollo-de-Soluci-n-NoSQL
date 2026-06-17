@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in">
+    <div class="card-header text-center">
+        <div class="icon-circle edit-icon"><i class="ph ph-pencil-simple"></i></div>
+        <h2>Editar Discográfica</h2>
+        <p class="subtitle">Actualizando información de: <strong>{{ nombre_actual }}</strong></p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="nombre"><i class="ph ph-text-aa"></i> Nombre de la Discográfica</label>
+            <input type="text" id="nombre" name="nombre" value="{{ discografica.nombre if discografica else '' }}" placeholder="Dejar igual para no cambiar" autocomplete="off">
+            <small class="form-help">Si dejas este campo vacío, se conservará el nombre actual.</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="pais"><i class="ph ph-globe-hemisphere-west"></i> País de Origen</label>
+            <input type="text" id="pais" name="pais" value="{{ discografica.pais if discografica else '' }}" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="fechaFundacion"><i class="ph ph-calendar-blank"></i> Fecha de Fundación</label>
+            <input type="date" id="fechaFundacion" name="fechaFundacion" value="{{ fecha_str }}">
+        </div>
+        
+        <div class="form-actions">
+            <a href="{{ url_for('index') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary update-btn"><i class="ph ph-arrows-clockwise"></i> Actualizar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

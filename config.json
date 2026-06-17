@@ -1,0 +1,10 @@
+{
+    "database_type": "mongodb",
+    "mongodb_uri": "mongodb://localhost:27017/",
+    "mongodb_db": "SoundWave",
+    "name_server": "DESKTOP-PIOLQJP",
+    "database": "SoundWave",
+    "driver": "ODBC Driver 17 for SQL Server",
+    "uid": "sa",
+    "pwd": "benjamin0309"
+}

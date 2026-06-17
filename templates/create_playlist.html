@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in">
+    <div class="card-header text-center">
+        <div class="icon-circle" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2); color: #06b6d4;"><i class="ph ph-playlist"></i></div>
+        <h2>Nueva Playlist</h2>
+        <p class="subtitle">Crea una nueva lista de reproducción para los usuarios.</p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="nombre"><i class="ph ph-text-aa"></i> Nombre de la Playlist</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. Pop Favoritos" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="privacidad"><i class="ph ph-lock"></i> Privacidad</label>
+            <select id="privacidad" name="privacidad" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;" required>
+                <option value="Privada" style="background: #1a1b2e; color: #fff;">Privada (Solo visible para el creador)</option>
+                <option value="Pública" style="background: #1a1b2e; color: #fff;">Pública (Visible para toda la comunidad)</option>
+                <option value="Premium" style="background: #1a1b2e; color: #fff;">Premium (Exclusiva para clientes Premium)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="usuarioId"><i class="ph ph-user"></i> Creador / Usuario Propietario</label>
+            <select id="usuarioId" name="usuarioId" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;">
+                <option value="" selected style="background: #1a1b2e; color: #fff;">Selecciona un usuario propietario...</option>
+                {% for u in usuarios %}
+                <option value="{{ u.usuarioId }}" style="background: #1a1b2e; color: #fff;">{{ u.nombre }} {{ u.apellido }} ({{ u.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="nuevoCreador"><i class="ph ph-user-plus"></i> O escribe el nombre de un nuevo creador (Nombre y Apellido)</label>
+            <input type="text" id="nuevoCreador" name="nuevoCreador" placeholder="Ej. Juan Pérez" autocomplete="off" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;">
+        </div>
+
+        <script>
+            document.querySelector('.modern-form').addEventListener('submit', function(e) {
+                const selectVal = document.getElementById('usuarioId').value;
+                const textVal = document.getElementById('nuevoCreador').value.trim();
+                
+                if (!selectVal && !textVal) {
+                    e.preventDefault();
+                    alert('Debes seleccionar un usuario propietario de la lista o escribir el nombre de uno nuevo.');
+                }
+            });
+        </script>
+
+        
+        <div class="form-actions">
+            <a href="{{ url_for('playlists') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary" style="background: #06b6d4;"><i class="ph ph-floppy-disk"></i> Guardar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

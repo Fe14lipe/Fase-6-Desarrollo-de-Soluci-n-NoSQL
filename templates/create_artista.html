@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in">
+    <div class="card-header text-center">
+        <div class="icon-circle" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.2); color: #8b5cf6;"><i class="ph ph-microphone-stage"></i></div>
+        <h2>Nuevo Artista</h2>
+        <p class="subtitle">Añade un nuevo artista al catálogo musical.</p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="nombreArtistico"><i class="ph ph-text-aa"></i> Nombre Artístico</label>
+            <input type="text" id="nombreArtistico" name="nombreArtistico" placeholder="Ej. Bad Bunny" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="pais"><i class="ph ph-globe-hemisphere-west"></i> País de Origen</label>
+            <input type="text" id="pais" name="pais" placeholder="Ej. Puerto Rico" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="fechaInicio"><i class="ph ph-calendar-blank"></i> Inicio de Carrera</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" required>
+        </div>
+
+        <div class="form-group">
+            <label for="discograficaId"><i class="ph ph-buildings"></i> Discográfica Vinculada</label>
+            <select id="discograficaId" name="discograficaId" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;">
+                <option value="" style="background: #1a1b2e; color: #fff;">Independiente / Ninguna</option>
+                {% for d in discograficas %}
+                <option value="{{ d.id }}" style="background: #1a1b2e; color: #fff;">{{ d.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-actions">
+            <a href="{{ url_for('artistas') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary" style="background: #8b5cf6;"><i class="ph ph-floppy-disk"></i> Guardar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

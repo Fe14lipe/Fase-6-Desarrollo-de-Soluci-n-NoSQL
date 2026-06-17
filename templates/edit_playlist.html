@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in" style="max-width: 700px;">
+    <div class="card-header text-center">
+        <div class="icon-circle edit-icon" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2); color: #06b6d4;"><i class="ph ph-pencil-simple"></i></div>
+        <h2>Editar Playlist</h2>
+        <p class="subtitle">Actualizando información de: <strong>{{ playlist.nombre }}</strong></p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="nombre"><i class="ph ph-text-aa"></i> Nombre de la Playlist</label>
+            <input type="text" id="nombre" name="nombre" value="{{ playlist.nombre }}" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="privacidad"><i class="ph ph-lock"></i> Privacidad</label>
+            <select id="privacidad" name="privacidad" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;" required>
+                <option value="Privada" {% if playlist.privacidad == 'Privada' %}selected{% endif %} style="background: #1a1b2e; color: #fff;">Privada (Solo visible para el creador)</option>
+                <option value="Pública" {% if playlist.privacidad == 'Pública' %}selected{% endif %} style="background: #1a1b2e; color: #fff;">Pública (Visible para toda la comunidad)</option>
+                <option value="Premium" {% if playlist.privacidad == 'Premium' %}selected{% endif %} style="background: #1a1b2e; color: #fff;">Premium (Exclusiva para clientes Premium)</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="usuarioId"><i class="ph ph-user"></i> Creador / Usuario Propietario</label>
+            <select id="usuarioId" name="usuarioId" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;" required>
+                {% for u in usuarios %}
+                <option value="{{ u.usuarioId }}" {% if u.usuarioId == playlist.usuarioId %}selected{% endif %} style="background: #1a1b2e; color: #fff;">{{ u.nombre }} {{ u.apellido }} ({{ u.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label><i class="ph ph-music-notes"></i> Gestionar Canciones en la Playlist</label>
+            <p class="subtitle" style="font-size: 0.8rem; margin-bottom: 0.5rem;">Marca las canciones que formarán parte de esta playlist.</p>
+            <div style="max-height: 250px; overflow-y: auto; padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 0.6rem;">
+                {% if todas_canciones %}
+                    {% for c in todas_canciones %}
+                    <label style="display: flex; align-items: center; justify-content: space-between; color: #cbd5e1; font-size: 0.9rem; cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                        <span style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="canciones" value="{{ c.cancionId }}" {% if c.cancionId in canciones_asociadas %}checked{% endif %} style="accent-color: #06b6d4; width: 16px; height: 16px;">
+                            <span><strong>{{ c.titulo }}</strong> <small style="color: var(--text-secondary);"> &bull; {{ c.album }}</small></span>
+                        </span>
+                        <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-secondary);">{{ c.duracion // 60 }}:{{ "%02d"|format(c.duracion % 60) }}</span>
+                    </label>
+                    {% endfor %}
+                {% else %}
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center; margin: 1rem 0;">No hay canciones activas en el sistema.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <a href="{{ url_for('playlists') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary update-btn" style="background: #06b6d4;"><i class="ph ph-arrows-clockwise"></i> Actualizar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

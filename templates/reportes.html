@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel main-card fade-in">
+    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1.5rem; margin-bottom: 2rem;">
+        <div>
+            <h2><i class="ph ph-chart-bar" style="color: #f59e0b;"></i> Módulo de Reportes Académicos</h2>
+            <p class="subtitle">Explotación de datos mediante Procedimientos Almacenados en el esquema <code>soundwave</code>.</p>
+        </div>
+    </div>
+
+    <!-- Menú de Pestañas de Reportes -->
+    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
+        <button class="btn-wope-demo tab-btn active" onclick="switchReportTab('tab-top')"><i class="ph ph-trend-up"></i> Top 50 Canciones</button>
+        <button class="btn-wope-demo tab-btn" onclick="switchReportTab('tab-finanzas')"><i class="ph ph-currency-dollar"></i> Ingresos Premium</button>
+        <button class="btn-wope-demo tab-btn" onclick="switchReportTab('tab-artistas')"><i class="ph ph-microphone-stage"></i> Stats de Artista</button>
+        <button class="btn-wope-demo tab-btn" onclick="switchReportTab('tab-playlists')"><i class="ph ph-playlist"></i> Contenido de Playlist</button>
+    </div>
+
+    <!-- PESTAÑA 1: TOP CANCIONES -->
+    <div id="tab-top" class="report-tab-content">
+        <h3 style="margin-bottom: 1.5rem; color: #f8fafc; display: flex; align-items: center; gap: 0.5rem;"><i class="ph ph-fire" style="color: #ef4444;"></i> Las 50 Canciones más Escuchadas</h3>
+        <div class="table-responsive">
+            {% if top_canciones %}
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Ranking</th>
+                        <th>Canción</th>
+                        <th>Artista</th>
+                        <th>Reproducciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tc in top_canciones %}
+                    <tr>
+                        <td class="col-id" style="font-size: 1.1rem; font-weight: bold; color: #00f2fe;">#{{ loop.index }}</td>
+                        <td class="col-name"><strong>{{ tc.Cancion }}</strong></td>
+                        <td>{{ tc.Artista }}</td>
+                        <td style="font-size: 1.1rem; font-family: monospace; color: #34d399;">{{ tc.TotalReproducciones }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <i class="ph ph-chart-line-down"></i>
+                <h3>No hay reproducciones este mes</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- PESTAÑA 2: INGRESOS PREMIUM -->
+    <div id="tab-finanzas" class="report-tab-content" style="display: none;">
+        <h3 style="margin-bottom: 1rem; color: #f8fafc;"><i class="ph ph-currency-dollar" style="color: #10b981;"></i> Reporte de Ingresos Premium por Periodo</h3>
+        <p class="subtitle" style="margin-bottom: 1.5rem;">Calcula el recaudo total de suscripciones Premium en el rango de fechas seleccionado.</p>
+        
+        <form method="POST" action="{{ url_for('reportes') }}" class="filter-form-row">
+            <input type="hidden" name="tab_active" value="tab-finanzas">
+            <div class="form-group">
+                <label><i class="ph ph-calendar"></i> Fecha Inicio</label>
+                <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" required>
+            </div>
+            <div class="form-group">
+                <label><i class="ph ph-calendar"></i> Fecha Fin</label>
+                <input type="date" name="fecha_fin" value="{{ fecha_fin }}" required>
+            </div>
+            <button type="submit" class="btn-wope-demo" style="height: 48px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="ph ph-funnel"></i> Consultar
+            </button>
+        </form>
+
+        <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+            <div class="glass-panel" style="padding: 2rem; flex: 1; text-align: center; background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.15);">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Monto Recaudado Premium</p>
+                <p style="font-size: 3rem; font-weight: 700; color: #34d399; text-shadow: 0 0 20px rgba(52, 211, 153, 0.2);">
+                    ${{ ingresos.TotalRecaudadoPremium if ingresos and ingresos.TotalRecaudadoPremium else '0.00' }}
+                </p>
+            </div>
+            <div class="glass-panel" style="padding: 2rem; flex: 1; text-align: center; background: rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.15);">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Transacciones Confirmadas</p>
+                <p style="font-size: 3rem; font-weight: 700; color: #93c5fd; text-shadow: 0 0 20px rgba(147, 197, 253, 0.2);">
+                    {{ ingresos.CantidadTransacciones if ingresos and ingresos.CantidadTransacciones else '0' }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 3: ESTADÍSTICAS DE ARTISTA -->
+    <div id="tab-artistas" class="report-tab-content" style="display: none;">
+        <h3 style="margin-bottom: 1rem; color: #f8fafc;"><i class="ph ph-microphone-stage" style="color: #8b5cf6;"></i> Estadísticas Globales de Artistas</h3>
+        <p class="subtitle" style="margin-bottom: 1.5rem;">Consulta las reproducciones históricas de un artista en particular.</p>
+        
+        <form method="POST" action="{{ url_for('reportes') }}" class="filter-form-row">
+            <input type="hidden" name="tab_active" value="tab-artistas">
+            <div class="form-group">
+                <label><i class="ph ph-user"></i> Seleccionar Artista</label>
+                <select name="artista_id" required>
+                    <option value="">-- Elige un artista --</option>
+                    {% for art in todos_artistas %}
+                        <option value="{{ art.artistaId }}" {% if artista_seleccionado == art.artistaId %}selected{% endif %}>{{ art.nombreArtistico }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-wope-demo" style="height: 48px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="ph ph-magnifying-glass"></i> Obtener Métricas
+            </button>
+        </form>
+
+        {% if stats_artista %}
+        <div class="glass-panel" style="padding: 2.5rem; text-align: center; background: rgba(139,92,246,0.05); border-color: rgba(139,92,246,0.2); margin-top: 2rem;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #8b5cf6, #3b82f6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);">
+                <i class="ph ph-chart-line-up" style="font-size: 2.5rem; color: #fff;"></i>
+            </div>
+            <h4 style="font-size: 1.8rem; font-family: 'Outfit', sans-serif; color: #fff; margin-bottom: 0.5rem;">{{ stats_artista.Artista }}</h4>
+            <p style="color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; margin-bottom: 1rem;">Reproducciones Globales Totales</p>
+            <p style="font-size: 3.5rem; font-weight: 800; color: #a78bfa; font-family: monospace;">{{ stats_artista.ReproduccionesGlobalesTotales }}</p>
+        </div>
+        {% elif artista_seleccionado %}
+        <div class="empty-state">
+            <i class="ph ph-info"></i>
+            <h3>El artista no tiene reproducciones registradas</h3>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- PESTAÑA 4: CONTENIDO DE PLAYLIST -->
+    <div id="tab-playlists" class="report-tab-content" style="display: none;">
+        <h3 style="margin-bottom: 1rem; color: #f8fafc;"><i class="ph ph-playlist" style="color: #0ea5e9;"></i> Contenido Estructurado de Playlists</h3>
+        <p class="subtitle" style="margin-bottom: 1.5rem;">Despliega el catálogo completo de pistas agregadas a una playlist específica.</p>
+        
+        <form method="POST" action="{{ url_for('reportes') }}" class="filter-form-row">
+            <input type="hidden" name="tab_active" value="tab-playlists">
+            <div class="form-group">
+                <label><i class="ph ph-list-bullets"></i> Seleccionar Playlist</label>
+                <select name="playlist_id" required>
+                    <option value="">-- Elige una playlist --</option>
+                    {% for pl in todas_playlists %}
+                        <option value="{{ pl.playlistId }}" {% if playlist_seleccionada == pl.playlistId %}selected{% endif %}>{{ pl.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-wope-demo" style="height: 48px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="ph ph-eye"></i> Cargar Contenido
+            </button>
+        </form>
+
+        {% if contenido_playlist %}
+        <div style="margin-top: 2rem;">
+            <h4 style="margin-bottom: 1rem; font-family: 'Outfit'; color: #fff;">Canciones en la Playlist: <span style="color: #0ea5e9;">{{ contenido_playlist[0].NombrePlaylist }}</span></h4>
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Canción</th>
+                            <th>Artista</th>
+                            <th>Álbum</th>
+                            <th>Duración (seg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for song in contenido_playlist %}
+                        <tr>
+                            <td class="col-id">#{{ loop.index }}</td>
+                            <td class="col-name"><strong>{{ song.Cancion }}</strong></td>
+                            <td style="color: #93c5fd;">{{ song.Artista }}</td>
+                            <td>{{ song.Album }}</td>
+                            <td style="font-family: monospace;">{{ song.DuracionSegundos }}s</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% elif playlist_seleccionada %}
+        <div class="empty-state">
+            <i class="ph ph-warning-circle"></i>
+            <h3>Esta playlist está vacía o no existe</h3>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Cambiar entre pestañas
+    function switchReportTab(tabId) {
+        // Ocultar todos
+        document.querySelectorAll('.report-tab-content').forEach(content => {
+            content.style.display = 'none';
+        });
+        
+        // Quitar clase activa de botones
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+            btn.style.background = 'rgba(0, 242, 254, 0.1)';
+            btn.style.color = '#00f2fe';
+        });
+        
+        // Mostrar tab seleccionada
+        document.getElementById(tabId).style.display = 'block';
+        
+        // Colocar active en el botón que corresponde
+        const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
+            return btn.getAttribute('onclick').includes(tabId);
+        });
+        if (targetBtn) {
+            targetBtn.classList.add('active');
+            targetBtn.style.background = '#00f2fe';
+            targetBtn.style.color = '#000';
+        }
+    }
+
+    // Auto-activar la pestaña correcta al recargar por envío POST
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeTabInput = document.querySelector('input[name="tab_active"]');
+        {% if playlist_seleccionada %}
+            switchReportTab('tab-playlists');
+        {% elif artista_seleccionado %}
+            switchReportTab('tab-artistas');
+        {% elif request.form.get('tab_active') == 'tab-finanzas' %}
+            switchReportTab('tab-finanzas');
+        {% else %}
+            switchReportTab('tab-top');
+        {% endif %}
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-panel form-card fade-in">
+    <div class="card-header text-center">
+        <div class="icon-circle" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;"><i class="ph ph-music-notes"></i></div>
+        <h2>Nueva Canción</h2>
+        <p class="subtitle">Agrega un nuevo tema musical al catálogo.</p>
+    </div>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label for="titulo"><i class="ph ph-text-aa"></i> Título de la Pista</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Ej. Levitating" required autocomplete="off">
+        </div>
+        
+        <div class="form-group">
+            <label for="duracion"><i class="ph ph-clock"></i> Duración (en segundos)</label>
+            <input type="number" id="duracion" name="duracion" placeholder="Ej. 203" required min="1">
+        </div>
+        
+        <div class="form-group">
+            <label for="albumId"><i class="ph ph-disc"></i> Álbum Asociado</label>
+            <select id="albumId" name="albumId" class="modern-select" style="width: 100%; padding: 0.8rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; outline: none; transition: all 0.2s ease-in-out;" required>
+                <option value="" disabled selected style="background: #1a1b2e; color: #fff;">Selecciona un álbum...</option>
+                {% for al in albumes %}
+                <option value="{{ al.id }}" style="background: #1a1b2e; color: #fff;">{{ al.titulo }} (por {{ al.artista }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label><i class="ph ph-tag"></i> Géneros Musicales</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; padding: 1rem; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                {% for g in generos %}
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: #cbd5e1; font-size: 0.9rem; cursor: pointer;">
+                    <input type="checkbox" name="generos" value="{{ g.id }}" style="accent-color: #10b981; width: 16px; height: 16px;">
+                    {{ g.nombre }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0;">
+            <input type="checkbox" id="explicita" name="explicita" value="1" style="accent-color: #10b981; width: 18px; height: 18px; cursor: pointer;">
+            <label for="explicita" style="margin: 0; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                <i class="ph ph-warning-octagon" style="color: #fca5a5;"></i> Contenido Explícito (Clasificación E)
+            </label>
+        </div>
+        
+        <div class="form-actions">
+            <a href="{{ url_for('canciones') }}" class="btn-secondary">Cancelar</a>
+            <button type="submit" class="btn-primary" style="background: #10b981;"><i class="ph ph-floppy-disk"></i> Guardar Registro</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

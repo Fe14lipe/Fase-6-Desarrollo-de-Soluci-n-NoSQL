@@ -1,0 +1,531 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="cyber-hero-container" style="position: relative; width: 100%; height: 420px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; margin-bottom: 2rem; z-index: 10;">
+    <canvas id="webgl-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+    <div class="cyber-hero-text" style="position: relative; z-index: 2; pointer-events: auto;">
+        <div class="cyber-greeting" style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: #888888; letter-spacing: 4px; margin-bottom: 0.5rem; text-transform: uppercase;">¡HOLA! SOY</div>
+        <h1 class="wope-title" style="margin-bottom: 2rem;">SOUNDWAVE</h1>
+        
+        <div class="wope-cta-group" style="margin: 0 auto; max-width: 450px;">
+            <div class="wope-search-box">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" placeholder="Buscar artista o canción...">
+                <button class="btn-wope-demo">Explorar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Glowing Dashboard Mockup -->
+    <div class="wope-dashboard-mockup">
+        <div class="mockup-header">
+            <div class="window-controls">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="mockup-tabs">
+                <div class="mockup-tab active"><i class="ph ph-wave-form"></i> app.soundwave.com</div>
+            </div>
+        </div>
+        
+        <div class="mockup-body">
+            <div class="mockup-sidebar">
+                <ul id="sidebar-genres">
+                    <li class="active" data-genre="all"><i class="ph ph-music-notes"></i> Canciones</li>
+                    <li data-genre="Pop"><i class="ph ph-sparkles"></i> Pop</li>
+                    <li data-genre="Rock"><i class="ph ph-guitar"></i> Rock</li>
+                    <li data-genre="Reggaetón"><i class="ph ph-fire"></i> Reggaetón</li>
+                    <li data-genre="Hip Hop"><i class="ph ph-microphone-stage"></i> Hip Hop</li>
+                    <li data-genre="Electrónica"><i class="ph ph-lightning"></i> Electrónica</li>
+                    <li data-genre="Salsa / Tropical"><i class="ph ph-disc"></i> Salsa / Tropical</li>
+                </ul>
+            </div>
+            <div class="mockup-content">
+                <!-- Horizontal Carousel -->
+                <div class="mockup-carousel-wrapper" style="margin-top: 0; padding-top: 0; border-top: none;">
+                    <h4 id="carousel-title" style="color: #fff; margin-bottom: 1.25rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem;"><i class="ph ph-fire"></i> Top Canciones del Mes</h4>
+                    <div class="mockup-carousel">
+                        {% if top_canciones %}
+                            {% for c in top_canciones %}
+                            <div class="carousel-item" data-cancion="{{ c.Cancion }}" data-artista="{{ c.Artista }}">
+                                <div class="carousel-cover">
+                                    <div class="gradient-fallback wope-grad-{{ loop.index0 % 5 }}">
+                                        <i class="ph ph-music-notes"></i>
+                                    </div>
+                                    <div class="cover-hover-overlay">
+                                        <div class="play-icon-circle">
+                                            <i class="ph-fill ph-play"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>{{ c.Cancion }}</h5>
+                                <p>{{ c.Artista }}</p>
+                                <span class="badge"><i class="ph ph-play-circle"></i> {{ c.TotalReproducciones }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="carousel-item"><h5>No hay datos</h5></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logos (Partners) -->
+    <div class="wope-partners">
+        <h2 style="font-family: 'Outfit'; font-weight: 800; font-size: 1.8rem; letter-spacing: -1px; color: rgba(255,255,255,0.8); margin: 0;">SONY MUSIC</h2>
+        <h2 style="font-family: 'Outfit'; font-weight: 800; font-size: 1.8rem; letter-spacing: -1px; color: rgba(255,255,255,0.8); margin: 0;">LYRICS</h2>
+        <h2 style="font-family: 'Outfit'; font-weight: 800; font-size: 1.8rem; letter-spacing: -1px; color: rgba(255,255,255,0.8); margin: 0;">YOUTUBE</h2>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const genresList = ['Pop', 'Rock', 'Reggaetón', 'Hip Hop', 'Electrónica', 'Salsa / Tropical'];
+    const genreColors = {
+        'Pop': '#f472b6',
+        'Rock': '#f87171',
+        'Reggaetón': '#fb923c',
+        'Hip Hop': '#fbbf24',
+        'Electrónica': '#38bdf8',
+        'Salsa / Tropical': '#34d399'
+    };
+
+    function getGenreForSong(title) {
+        let hash = 0;
+        for (let i = 0; i < title.length; i++) {
+            hash = title.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % genresList.length;
+        return genresList[index];
+    }
+
+    const items = document.querySelectorAll('.carousel-item[data-cancion]');
+    
+    // Initialize genres and fetch artwork
+    items.forEach(async (item) => {
+        const title = item.getAttribute('data-cancion');
+        const artist = item.getAttribute('data-artista');
+        const coverDiv = item.querySelector('.carousel-cover');
+        const fallback = coverDiv.querySelector('.gradient-fallback');
+        
+        // 1. Assign genre to card
+        const genre = getGenreForSong(title);
+        item.setAttribute('data-genre', genre);
+        
+        // 2. Render colored genre label
+        const genreLabel = document.createElement('span');
+        genreLabel.textContent = genre;
+        genreLabel.style.fontSize = '0.65rem';
+        genreLabel.style.color = genreColors[genre] || '#818cf8';
+        genreLabel.style.textTransform = 'uppercase';
+        genreLabel.style.fontWeight = '700';
+        genreLabel.style.letterSpacing = '0.5px';
+        genreLabel.style.marginBottom = '0.25rem';
+        genreLabel.style.display = 'block';
+        
+        const titleH5 = item.querySelector('h5');
+        item.insertBefore(genreLabel, titleH5);
+
+        // 3. Fetch artwork from iTunes API (Optimized with LocalStorage Cache)
+        const cacheKey = `soundwave_cover_${title}_${artist}`.replace(/\s+/g, '_');
+        const cachedUrl = localStorage.getItem(cacheKey);
+
+        const renderImg = (url) => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = title;
+            img.className = 'cover-img';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '6px';
+            img.style.position = 'absolute';
+            img.style.top = '0';
+            img.style.left = '0';
+            img.style.zIndex = '1';
+            
+            coverDiv.insertBefore(img, coverDiv.querySelector('.cover-hover-overlay'));
+            if (fallback) {
+                fallback.style.display = 'none';
+            }
+        };
+
+        if (cachedUrl) {
+            renderImg(cachedUrl);
+        } else {
+            try {
+                const query = encodeURIComponent(`${title} ${artist}`);
+                const response = await fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    const track = data.results[0];
+                    const artworkUrl = track.artworkUrl100 ? track.artworkUrl100.replace('100x100bb', '250x250bb') : null;
+                    if (artworkUrl) {
+                        localStorage.setItem(cacheKey, artworkUrl);
+                        renderImg(artworkUrl);
+                    }
+                }
+            } catch (e) {
+                console.error('Error fetching cover art for', title, e);
+            }
+        }
+    });
+
+    // 4. Sidebar genre filtering
+    const sidebarItems = document.querySelectorAll('#sidebar-genres li');
+    const carouselTitle = document.getElementById('carousel-title');
+    const carousel = document.querySelector('.mockup-carousel');
+    
+    // 5. Automatic Panning for "Todas las Canciones" (Auto-Scroll)
+    let autoScrollInterval = null;
+    let scrollDirection = 1;
+    let isDown = false;
+
+    function startAutoScroll() {
+        if (autoScrollInterval) return;
+        autoScrollInterval = setInterval(() => {
+            const activeGenreLi = document.querySelector('#sidebar-genres li.active');
+            const activeGenre = activeGenreLi ? activeGenreLi.getAttribute('data-genre') : 'all';
+            
+            if (activeGenre !== 'all') {
+                stopAutoScroll();
+                return;
+            }
+            
+            const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+            if (maxScroll <= 0) return;
+            
+            if (carousel.scrollLeft >= maxScroll - 1) {
+                scrollDirection = -1;
+            } else if (carousel.scrollLeft <= 0) {
+                scrollDirection = 1;
+            }
+            
+            carousel.scrollLeft += scrollDirection * 0.8; // Ultra smooth cinematic speed (0.8px per tick)
+        }, 25);
+    }
+
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+
+    // Combined filtering function (Sidebar Genre + Search Input)
+    function filterSongs() {
+        const activeGenreLi = document.querySelector('#sidebar-genres li.active');
+        const activeGenre = activeGenreLi ? activeGenreLi.getAttribute('data-genre') : 'all';
+        
+        const searchInput = document.querySelector('.wope-search-box input');
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        
+        items.forEach(card => {
+            const title = card.getAttribute('data-cancion').toLowerCase();
+            const artist = card.getAttribute('data-artista').toLowerCase();
+            const cardGenre = card.getAttribute('data-genre');
+            
+            const matchesGenre = (activeGenre === 'all' || cardGenre === activeGenre);
+            const matchesSearch = (title.includes(query) || artist.includes(query));
+            
+            if (matchesGenre && matchesSearch) {
+                if (card.style.display === 'none' || card.style.display === '') {
+                    card.style.display = 'flex';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Manage auto-scroll: active only when viewing 'all' and search is empty
+        if (activeGenre === 'all' && query === '') {
+            startAutoScroll();
+        } else {
+            stopAutoScroll();
+        }
+    }
+
+    // Start auto scroll on load
+    setTimeout(startAutoScroll, 1000);
+
+    // Sidebar Genre listeners
+    sidebarItems.forEach(sib => {
+        sib.addEventListener('click', () => {
+            sidebarItems.forEach(i => i.classList.remove('active'));
+            sib.classList.add('active');
+            
+            const activeGenre = sib.getAttribute('data-genre');
+            carousel.scrollLeft = 0;
+            
+            if (activeGenre === 'all') {
+                carouselTitle.innerHTML = '<i class="ph ph-fire"></i> Top Canciones del Mes';
+            } else {
+                carouselTitle.innerHTML = `<i class="ph ph-fire"></i> Top Canciones: ${activeGenre}`;
+            }
+            
+            filterSongs();
+        });
+    });
+
+    // Real-time Search Input listener
+    const searchInput = document.querySelector('.wope-search-box input');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            carousel.scrollLeft = 0; // reset scroll to let user see matches from start
+            filterSongs();
+        });
+        
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                filterSongs();
+            }
+        });
+    }
+
+    // "Explorar" CTA focus listener
+    const searchBtn = document.querySelector('.btn-wope-demo');
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            searchInput.focus();
+            filterSongs();
+        });
+    }
+
+    // 6. Advanced Carousel Scrolling (Wheel-to-Horizontal & Drag-to-Scroll)
+    // Redirect vertical wheel ticks to horizontal shift
+    carousel.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+            e.preventDefault();
+            carousel.scrollLeft += e.deltaY;
+        }
+    });
+
+    // Pause auto-scroll on hover
+    carousel.addEventListener('mouseenter', () => {
+        stopAutoScroll();
+    });
+
+    carousel.addEventListener('mouseleave', () => {
+        const activeGenreLi = document.querySelector('#sidebar-genres li.active');
+        const activeGenre = activeGenreLi ? activeGenreLi.getAttribute('data-genre') : 'all';
+        if (activeGenre === 'all' && !isDown) {
+            startAutoScroll();
+        }
+    });
+
+    // Click and drag to scroll (Grab & Drag) with click prevention
+    let startX;
+    let scrollLeft;
+    let isDragging = false;
+    let startMouseX = 0;
+    const dragThreshold = 6; // pixels of movement to declare dragging
+
+    carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        isDragging = false;
+        stopAutoScroll();
+        carousel.classList.add('active-drag');
+        startX = e.pageX - carousel.offsetLeft;
+        startMouseX = e.pageX;
+        scrollLeft = carousel.scrollLeft;
+    });
+
+    carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.remove('active-drag');
+        const activeGenreLi = document.querySelector('#sidebar-genres li.active');
+        const activeGenre = activeGenreLi ? activeGenreLi.getAttribute('data-genre') : 'all';
+        if (activeGenre === 'all') {
+            startAutoScroll();
+        }
+    });
+
+    carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        
+        if (Math.abs(e.pageX - startMouseX) > dragThreshold) {
+            isDragging = true;
+        }
+        
+        carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Handle clicks on songs without interfering with dragging
+    items.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            const title = card.getAttribute('data-cancion');
+            const artist = card.getAttribute('data-artista');
+            playSong(title, artist);
+        });
+    });
+
+    // 7. Three.js WebGL Morphing Particle Sphere (Inspirado en arkon.digital)
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    script.onload = () => {
+        initThreeSphere();
+    };
+    document.head.appendChild(script);
+
+    function initThreeSphere() {
+        const canvas = document.getElementById('webgl-canvas');
+        const container = canvas.parentElement;
+        if (!canvas) return;
+
+        const scene = new THREE.Scene();
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
+        camera.position.z = 10;
+
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Particle Geometry (Optimized count for 60fps rendering)
+        const geometry = new THREE.BufferGeometry();
+        const count = 600; // Reduced from 1500 for extreme performance boost
+        const positions = new Float32Array(count * 3);
+        const originalPositions = new Float32Array(count * 3);
+
+        for (let i = 0; i < count; i++) {
+            const u = Math.random();
+            const v = Math.random();
+            const theta = u * 2.0 * Math.PI;
+            const phi = Math.acos(2.0 * v - 1.0);
+            
+            const r = 3.6; // Sphere radius inside container
+            
+            const x = r * Math.sin(phi) * Math.cos(theta);
+            const y = r * Math.sin(phi) * Math.sin(theta);
+            const z = r * Math.cos(phi);
+
+            positions[i * 3] = x;
+            positions[i * 3 + 1] = y;
+            positions[i * 3 + 2] = z;
+
+            originalPositions[i * 3] = x;
+            originalPositions[i * 3 + 1] = y;
+            originalPositions[i * 3 + 2] = z;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        // Points Material
+        const material = new THREE.PointsMaterial({
+            color: 0x00f2fe, // Neon Cyan
+            size: 0.08,
+            transparent: true,
+            opacity: 0.85,
+            blending: THREE.AdditiveBlending
+        });
+
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        // Add inner wireframe sphere for depth and complexity
+        const innerGeom = new THREE.SphereGeometry(3.4, 24, 24);
+        const innerMat = new THREE.MeshBasicMaterial({
+            color: 0x8b5cf6, // Violet glow
+            wireframe: true,
+            transparent: true,
+            opacity: 0.12,
+            blending: THREE.AdditiveBlending
+        });
+        const innerMesh = new THREE.Mesh(innerGeom, innerMat);
+        scene.add(innerMesh);
+
+        // Interaction mouse state (Local to hero block)
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) / 120;
+            mouseY = (e.clientY - window.innerHeight / 2) / 120;
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = clock.getElapsedTime();
+
+            // Rotation
+            points.rotation.y = time * 0.07;
+            points.rotation.x = time * 0.04;
+            innerMesh.rotation.y = -time * 0.04;
+            innerMesh.rotation.x = -time * 0.02;
+
+            // Smooth local mouse tracking
+            targetX += (mouseX - targetX) * 0.05;
+            targetY += (mouseY - targetY) * 0.05;
+
+            points.position.x = targetX;
+            points.position.y = -targetY;
+            innerMesh.position.x = targetX;
+            innerMesh.position.y = -targetY;
+
+            // Morph vertices with sine wave deformation
+            const posAttr = geometry.attributes.position;
+            const arr = posAttr.array;
+
+            for (let i = 0; i < count; i++) {
+                const ix = originalPositions[i * 3];
+                const iy = originalPositions[i * 3 + 1];
+                const iz = originalPositions[i * 3 + 2];
+
+                const wave = Math.sin(ix * 0.7 + time * 1.5) * 
+                             Math.cos(iy * 0.7 + time * 1.2) * 
+                             Math.sin(iz * 0.7 + time * 0.9) * 0.45;
+
+                const baseRadius = 3.6;
+                const newRadius = baseRadius + wave;
+                const scale = newRadius / baseRadius;
+
+                arr[i * 3] = ix * scale;
+                arr[i * 3 + 1] = iy * scale;
+                arr[i * 3 + 2] = iz * scale;
+            }
+
+            posAttr.needsUpdate = true;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive resize handler
+        window.addEventListener('resize', () => {
+            if (!container || !canvas) return;
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    }
+});
+</script>
+{% endblock %}
